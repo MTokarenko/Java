@@ -26,6 +26,7 @@ public class SubscribingTest {
         } catch (Throwable t) {
             t.printStackTrace();
             driver.quit();
+            System.out.println();
         }
 
     }
