@@ -1,6 +1,6 @@
 group 'tokarenko'
 version '1.0-SNAPSHOT'
-artifacts 'web-selenium'
+
 
 apply plugin: 'java'
 
@@ -13,8 +13,9 @@ repositories {
 
 dependencies {
     compile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-java',
-            version: '3.4.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.4.0'
+    compile group: 'org.apache.maven', name: 'maven-project', version: '2.2.1'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 }
 
 
