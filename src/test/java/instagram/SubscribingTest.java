@@ -11,7 +11,7 @@ import tokarenko.instagram.pages.InstagramLoginPage;
 public class SubscribingTest {
 
     public static void main(String... args) {
-        //System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         try {
             driver.get("http://instagram.com");

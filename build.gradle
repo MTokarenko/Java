@@ -1,5 +1,6 @@
 group 'tokarenko'
 version '1.0-SNAPSHOT'
+artifacts 'web-selenium'
 
 apply plugin: 'java'
 

@@ -9,8 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tokarenko.AbstractPage;
 
-
 import static org.junit.Assert.assertTrue;
+
 
 public class FaceBookLoginPage extends AbstractPage {
 
