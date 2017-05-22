@@ -27,6 +27,5 @@ public class SubscribingTest {
             t.printStackTrace();
             driver.quit();
         }
-
     }
 }
