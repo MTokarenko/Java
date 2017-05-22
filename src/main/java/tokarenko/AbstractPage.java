@@ -21,10 +21,10 @@ public class AbstractPage {
         return this.driver;
     }
 
-    public void fieldInsert(WebElement el, String value) {
-        wait.until(ExpectedConditions.elementToBeSelected(el));
+    public AbstractPage fieldInsert(WebElement el, String value) {
         el.clear();
         el.sendKeys(value);
+        return this;
     }
 
     public void fieldInsert(String xpath, String value) {
