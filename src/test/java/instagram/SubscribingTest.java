@@ -1,5 +1,6 @@
 package instagram;
 
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -11,7 +12,7 @@ import tokarenko.instagram.pages.InstagramLoginPage;
 public class SubscribingTest {
 
     public static void main(String... args) {
-        //System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         try {
             driver.get("http://instagram.com");
