@@ -16,7 +16,6 @@ public class SubscribingTest {
         WebDriver driver = new ChromeDriver();
         try {
             driver.get("http://instagram.com");
-
             InstagramLoginPage instagramLoginPage = PageFactory.initElements(driver, InstagramLoginPage.class);
             instagramLoginPage.click_loginFromFacebookButton();
 
