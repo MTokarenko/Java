@@ -31,7 +31,7 @@ public class FaceBookLoginPage extends AbstractPage {
     public FaceBookLoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(loginButton));
+        waiting.until(ExpectedConditions.visibilityOf(loginButton));
     }
 
     public void login(String login, String pass) {
@@ -39,7 +39,7 @@ public class FaceBookLoginPage extends AbstractPage {
         this.userPass.sendKeys(pass);
         this.loginButton.click();
 
-        wait.until(ExpectedConditions.visibilityOf(search));
+        waiting.until(ExpectedConditions.visibilityOf(search));
         assertTrue("title should be 'Instagram'", getDriver()
                 .getTitle().equals("Instagram"));
     }

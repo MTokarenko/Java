@@ -25,14 +25,16 @@ public class LoginPage extends AbstractPage {
     public LoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(enterButton));
+//        waiting.until(ExpectedConditions.visibilityOf(enterButton));
+        wait("button", enterButton);
     }
 
     public void login(String login, String pass) {
         fieldInsert(userName, login);
         fieldInsert(userPass, pass);
         enterButton.click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(TEZIS_BTN)));
+//        waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(TEZIS_BTN)));
+        wait("div", TEZIS_BTN);
     }
 
 }

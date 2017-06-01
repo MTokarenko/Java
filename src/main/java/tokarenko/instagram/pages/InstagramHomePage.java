@@ -30,13 +30,13 @@ public class InstagramHomePage extends AbstractPage {
         super(driver);
         PageFactory.initElements(driver, this);
         URL_BASE = driver.getCurrentUrl();
-        wait.until(ExpectedConditions.visibilityOf(titleInstagram));
+        waiting.until(ExpectedConditions.visibilityOf(titleInstagram));
     }
 
     public void addFollowers() {
         for (String s : getListGroups()) {
             getDriver().get(URL_BASE.concat(s));
-            wait.until(ExpectedConditions.visibilityOf(followers));
+            waiting.until(ExpectedConditions.visibilityOf(followers));
             followers.click();
             followersAdd();
         }
@@ -44,7 +44,7 @@ public class InstagramHomePage extends AbstractPage {
 
     private void followersAdd() {
         WebElement followers = getDriver().findElement(By.xpath(".//div[contains(text(), 'Подписчики')]"));
-        wait.until(ExpectedConditions.visibilityOf(followers));
+        waiting.until(ExpectedConditions.visibilityOf(followers));
         WebElement el;
         while (true) {
             try {
