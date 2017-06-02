@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import tokarenko.AbstractPage;
 import static tokarenko.haulmont.tezis.data.Data.*;
@@ -27,7 +26,8 @@ public class MainPage extends AbstractPage {
         wait("div", tezisLogo);
     }
 
-    public void openUsersScreen() {
+    public AbstractPage openUsersScreen() {
         btnClick(administrationBtn).btnClick(usersBtn);
+        return this;
     }
 }

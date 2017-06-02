@@ -27,6 +27,12 @@ public class AbstractPage {
         return this;
     }
 
+    public AbstractPage btnClick(String xpath) {
+        wait("button", xpath);
+        driver.findElement(By.xpath(xpath)).click();
+        return this;
+    }
+
     public AbstractPage fieldInsert(WebElement el, String value) {
         el.clear();
         el.sendKeys(value);
