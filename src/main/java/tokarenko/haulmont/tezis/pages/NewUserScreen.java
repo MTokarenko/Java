@@ -77,7 +77,8 @@ public class NewUserScreen extends MainPage {
                 WebElement role = driver.findElement(By.xpath(String.format(".//div[text() = \"%s\"]", roleText)));
                 role.click();
                 btnClick(".//div[@cuba-id=\"selectButton\"]");
-                login.sendKeys(roleText);
+//                login.sendKeys(roleText);
+                fieldInsert(login, roleText);
                 password.sendKeys("123");
                 confirmPassword.sendKeys("123");
                 surname.sendKeys(roleText);

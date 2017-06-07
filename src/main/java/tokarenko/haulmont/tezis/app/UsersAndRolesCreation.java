@@ -31,10 +31,8 @@ public class UsersAndRolesCreation {
             loginPage.login("admin", "admin");
             MainPage mainPage = PageFactory.initElements(driver, MainPage.class);
             mainPage.openUsersScreen();
-            List users = mainPage.getRowFromTable("3");
-//            NewUserScreen newUser = new NewUserScreen(driver);
-//            newUser.createUsers(EMAIL);
-            System.out.println(users);
+            NewUserScreen newUser = new NewUserScreen(driver);
+            newUser.createUsers(EMAIL);
 
         } catch (Throwable t) {
             t.printStackTrace();
