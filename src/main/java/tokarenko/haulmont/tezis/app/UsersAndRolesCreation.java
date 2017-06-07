@@ -9,8 +9,11 @@ import org.openqa.selenium.support.PageFactory;
 
 import tokarenko.haulmont.tezis.pages.LoginPage;
 import tokarenko.haulmont.tezis.pages.MainPage;
+import tokarenko.haulmont.tezis.pages.NewUserScreen;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 import static tokarenko.haulmont.tezis.data.Data.*;
 import static utils.Utils.*;
@@ -19,22 +22,19 @@ public class UsersAndRolesCreation {
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
+        Boolean roleChecker = Boolean.FALSE;
+        int counter;
         try {
             driver.get(URL);
             driver.manage().window().maximize();
-            LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
+            LoginPage loginPage = new LoginPage(driver);
             loginPage.login("admin", "admin");
             MainPage mainPage = PageFactory.initElements(driver, MainPage.class);
-            mainPage.openUsersScreen()
-                    .btnClick(".//div[@cuba-id=\"createPopupButton\"]")
-                    .btnClick(".//div[@cuba-id=\"create\"]")
-                    .btnClick(".//div[@cuba-id=\"rolesTableAddBtn\"]");
-            sleep(3);
-            List<WebElement> el = driver.findElements(By.xpath(
-                    ".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[1]"));
-            for (WebElement element: el)
-                print(element.getText());
-            sleep(3);
+            mainPage.openUsersScreen();
+            List users = mainPage.getRowFromTable("3");
+//            NewUserScreen newUser = new NewUserScreen(driver);
+//            newUser.createUsers(EMAIL);
+            System.out.println(users);
 
         } catch (Throwable t) {
             t.printStackTrace();
