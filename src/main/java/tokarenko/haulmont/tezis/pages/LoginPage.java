@@ -25,7 +25,6 @@ public class LoginPage extends AbstractPage {
     public LoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-//        waiting.until(ExpectedConditions.visibilityOf(enterButton));
         wait("button", enterButton);
     }
 
@@ -33,7 +32,6 @@ public class LoginPage extends AbstractPage {
         fieldInsert(userName, login);
         fieldInsert(userPass, pass);
         enterButton.click();
-//        waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(TEZIS_BTN)));
         wait("div", TEZIS_BTN);
     }
 

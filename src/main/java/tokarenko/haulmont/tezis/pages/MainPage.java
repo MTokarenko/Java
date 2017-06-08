@@ -39,7 +39,6 @@ public class MainPage extends AbstractPage {
     }
 
     public void showAllRowsStrings() {
-//        btnClick(".//div[@cuba-id=\"tableSettings\"]");
         wait("button", ".//div[@cuba-id=\"tableSettings\"]");
         sleep(1);
         getDriver().findElement(By.xpath(".//div[@cuba-id=\"tableSettings\"]")).click();
@@ -52,7 +51,6 @@ public class MainPage extends AbstractPage {
         String fieldXpath = String.format
                 (".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[%s]", rowNumber);
         List<String> users = new ArrayList<>();
-        openUsersScreen();
         showAllRowsStrings();
         List <WebElement> elements = getDriver().findElements(By.xpath(fieldXpath));
         for (WebElement element: elements) {

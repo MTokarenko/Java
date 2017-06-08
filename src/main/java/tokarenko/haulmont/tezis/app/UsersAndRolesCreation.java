@@ -22,8 +22,6 @@ public class UsersAndRolesCreation {
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        Boolean roleChecker = Boolean.FALSE;
-        int counter;
         try {
             driver.get(URL);
             driver.manage().window().maximize();
