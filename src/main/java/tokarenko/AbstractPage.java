@@ -34,6 +34,7 @@ public class AbstractPage {
     }
 
     public AbstractPage fieldInsert(WebElement el, String value) {
+        wait("div", el);
         el.clear();
         el.sendKeys(value);
         return this;
