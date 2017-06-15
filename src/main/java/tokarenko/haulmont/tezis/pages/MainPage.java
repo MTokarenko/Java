@@ -60,7 +60,8 @@ public class MainPage extends AbstractPage {
     }
 
     public void showAllRowsStrings() {
-        wait("button", ".//div[@cuba-id=\"tableSettings\"]");
+        wait("div", ".//div[@cuba-id=\"tableSettings\"]");
+        sleep(1);
         getDriver().findElement(By.xpath(".//div[@cuba-id=\"tableSettings\"]")).click();
         btnClick(".//div[@cuba-id=\"setMaxResults_0\"]");
         waiting.until(ExpectedConditions.textToBePresentInElementLocated
@@ -93,10 +94,10 @@ public class MainPage extends AbstractPage {
             for (WebElement element : elements) {
                 usersTmp.add(element.getText());
             }
-                WebElement lastElement = elements.get(elements.size()-1);
-                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", lastElement);
+            WebElement lastElement = elements.get(elements.size()-1);
+            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", lastElement);
 
-                lastElement.click();
+            lastElement.click();
         }
         List<String> users = new ArrayList<>(usersTmp);
         return users;
