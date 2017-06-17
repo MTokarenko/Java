@@ -44,17 +44,15 @@ public class NewUserScreen extends MainPage {
 
     TreeSet<String> rejectedGroups = new TreeSet<String>(Arrays.asList("Administrators", "Archive access",
             "Archivist", "Department Chief", "doc_publisher", "meetingdoc_ceator", "PortalIntegrationRole",
-            "schedule_task_creator", "SimpleUser", "SubdivisionChief", "UserSubstitutionEditor", "AppIntegrationRole",
+            "schedule_task_creator", "SubdivisionChief", "UserSubstitutionEditor", "AppIntegrationRole",
             "Блокировка блока документов"));
 
-    WebDriver driver;
-    Boolean roleChecker = Boolean.TRUE;
+//    WebDriver driver;
 
     public NewUserScreen(WebDriver driver) {
         super(driver);
-        this.driver = driver;
+//        this.driver = driver;
         PageFactory.initElements(driver, this);
-        sleep(2);
     }
 
     public void createUsers(String email) {
