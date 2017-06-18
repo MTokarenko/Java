@@ -47,11 +47,8 @@ public class NewUserScreen extends MainPage {
             "schedule_task_creator", "SubdivisionChief", "UserSubstitutionEditor", "AppIntegrationRole",
             "Блокировка блока документов"));
 
-//    WebDriver driver;
-
     public NewUserScreen(WebDriver driver) {
         super(driver);
-//        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 

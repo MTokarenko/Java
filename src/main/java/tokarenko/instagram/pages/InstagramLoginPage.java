@@ -16,7 +16,7 @@ public class InstagramLoginPage extends AbstractPage {
     public InstagramLoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-        waiting.until(ExpectedConditions.visibilityOf(loginFromFacebookButton));
+        wait("div", loginFromFacebookButton);
     }
 
     public void click_loginFromFacebookButton() {

@@ -1,7 +1,6 @@
 package tokarenko.haulmont.tezis.pages;
 
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,8 +10,6 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.Utils.print;
-import static utils.Utils.sleep;
 
 public class SubstitutionScreen extends MainPage {
 

@@ -1,15 +1,14 @@
-package instagram;
+package tokarenko.instagram.app;
 
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import tokarenko.instagram.pages.FaceBookLoginPage;
-import tokarenko.instagram.pages.InstagramHomePage;
+import tokarenko.instagram.pages.HomePage;
 import tokarenko.instagram.pages.InstagramLoginPage;
 
 
-public class SubscribingTest {
+public class Subscriber {
 
     public static void main(String... args) {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
@@ -21,7 +20,9 @@ public class SubscribingTest {
 
             PageFactory.initElements(driver, FaceBookLoginPage.class)
                     .login("Touringeo@mail.ru", "13085757solnishko13");
-            PageFactory.initElements(driver, InstagramHomePage.class).addFollowers();
+            HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+            homePage.addFollowers();
+            driver.quit();
 
         } catch (Throwable t) {
             t.printStackTrace();

@@ -1,11 +1,10 @@
 package tokarenko.haulmont.tezis.pages;
 
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import tokarenko.AbstractPage;
 import static tokarenko.haulmont.tezis.data.Data.*;
@@ -34,5 +33,4 @@ public class LoginPage extends AbstractPage {
         enterButton.click();
         wait("div", TEZIS_BTN);
     }
-
 }

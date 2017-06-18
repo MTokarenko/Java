@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class AbstractPage {
 
     private WebDriver driver;
-    public WebDriverWait waiting;
+    protected WebDriverWait waiting;
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
@@ -33,15 +33,17 @@ public class AbstractPage {
         return this;
     }
 
-    public AbstractPage fieldInsert(WebElement el, String value) {
-        wait("div", el);
-        el.clear();
-        el.sendKeys(value);
+    public AbstractPage fieldInsert(WebElement elem, String value) {
+        wait("div", elem);
+        elem.click();
+        elem.clear();
+        elem.sendKeys(value);
         return this;
     }
 
     public AbstractPage fieldInsert(String xpath, String value) {
         WebElement elem =  waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+        elem.click();
         elem.clear();
         elem.sendKeys(value);
         return this;
@@ -59,5 +61,7 @@ public class AbstractPage {
             waiting.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
         else if (type == "div")
             waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+        else if (type == "divs")
+            waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
     }
 }
