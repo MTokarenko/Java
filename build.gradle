@@ -8,6 +8,14 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://repository.haulmont.com:8587/nexus/content/groups/work'
+        credentials {
+            def u = System.getenv('HAULMONT_REPOSITORY_USER')
+            def p = System.getenv('HAULMONT_REPOSITORY_PASSWORD')
+            username(u ? u : 'cuba'); password(p ? p : 'cuba123')
+        }
+    }
 }
 
 
@@ -15,6 +23,8 @@ dependencies {
     compile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.4.0'
     compile group: 'org.apache.maven', name: 'maven-project', version: '2.2.1'
+    compile('com.haulmont.masquerade:masquerade-web:0.1-SNAPSHOT')
+    compile('com.haulmont.masquerade:masquerade-connector:0.1-SNAPSHOT')
 }
 
 
