@@ -10,7 +10,6 @@ import tokarenko.AbstractPage;
 
 import java.util.*;
 
-import static tokarenko.instagram.data.Data.groupsNames;
 import static utils.Utils.sleep;
 
 
@@ -25,7 +24,7 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = ".//a[.=\"Профиль\"]")
     protected WebElement profileBtn;
 
-    private final String URL_BASE;
+    public final String URL_BASE;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -34,29 +33,34 @@ public class HomePage extends AbstractPage {
         wait("div", titleInstagram);
     }
 
-    public void addFollowers() {
-        for (String s : groupsNames) {
-            getDriver().get(URL_BASE.concat(s));
-            btnClick(followers);
-            wait("divs", ".//li[@class=\"_cx1ua\"]");
-            WebElement el;
-            while (true) {
-                try {
-                    el = getDriver().findElement(By
-                            .xpath("(.//span[@class = '_7k49n']/*[contains(text(), 'Подписаться')])[1]"));
-                    ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", el);
+    public void addFollowers(List<String> myFollowers) {
+        btnClick(followers);
+        wait("divs", ".//li[@class=\"_cx1ua\"]");
+        String checker = "stringForChecking";
+        WebElement el;
+        while (true) {
+            try {
+                el = getDriver().findElement(By
+                        .xpath("(.//span[@class = '_7k49n']/*[contains(text(), 'Подписаться')])[1]"));
+                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", el);
+                WebElement element = getDriver()
+                        .findElement(By.xpath("(.//a[@class=\"_4zhc5 notranslate _j7lfh\"])[1]"));
+                if (! myFollowers.contains(element.getText()))
                     el.click();
-                    sleep(3);
-                    if (el.getText().equals("Подписаться")) {
-                        getDriver().navigate().refresh();
-                        addFollowers();
-                    }
-                    sleep(7);
-                } catch (org.openqa.selenium.NoSuchElementException ex) {
-                    gotoLastElemet(".//span[@class = '_7k49n']/button");
-                    sleep(1);
+                sleep(3);
+                if (el.getText().equals("Подписаться")) {
+                    getDriver().navigate().refresh();
+                    addFollowers(myFollowers);
                 }
-
+                sleep(7);
+            } catch (org.openqa.selenium.NoSuchElementException ex) {
+//                gotoLastElemet(".//span[@class = '_7k49n']/button");
+                List<WebElement> rowsFollowers = getDriver()
+                        .findElements(By.xpath(".//span[@class = '_7k49n']/button"));
+                WebElement lastElement = rowsFollowers.get(rowsFollowers.size()-1);
+                ((JavascriptExecutor) getDriver())
+                        .executeScript("arguments[0].scrollIntoView(true);", lastElement);
+                sleep(1);
             }
         }
     }
@@ -78,16 +82,19 @@ public class HomePage extends AbstractPage {
         String checker = "stringForChecking";
         btnClick(followers);
         wait("divs", ".//li[@class=\"_cx1ua\"]");
-        Set<String> followers = new HashSet<String>();
+        Set<String> followers = new HashSet<>();
         List<WebElement> followersTmp = getDriver()
                 .findElements(By.xpath(".//a[@class=\"_4zhc5 notranslate _j7lfh\"]"));
         WebElement lastElement = followersTmp.get(1);
+        for (WebElement follower: followersTmp)
+            followers.add(follower.getText());
         while (! checker.equals(lastElement.getText())) {
             checker = lastElement.getText();
             followersTmp = getDriver()
                     .findElements(By.xpath(".//a[@class=\"_4zhc5 notranslate _j7lfh\"]"));
-            lastElement = followersTmp.get(followersTmp.size()-1);
-            for (WebElement follower: followersTmp) {
+            lastElement = followersTmp.get(followersTmp.size() - 1);
+            for (int i = 1; i < 11; i++) {
+                WebElement follower = followersTmp.get(followersTmp.size() - i);
                 followers.add(follower.getText());
             }
             ((JavascriptExecutor) getDriver())

@@ -1,7 +1,6 @@
 package tokarenko.haulmont.tezis.pages;
 
 
-import com.haulmont.masquerade.Wire;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +10,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import tokarenko.AbstractPage;
-
-import javax.xml.ws.WebEndpoint;
 
 import static utils.Utils.sleep;
 import static tokarenko.haulmont.tezis.data.Data.*;
