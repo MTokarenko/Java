@@ -2,6 +2,7 @@ package tokarenko.instagram.app;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import tokarenko.instagram.pages.FaceBookLoginPage;
 import tokarenko.instagram.pages.HomePage;
@@ -15,8 +16,8 @@ import static tokarenko.instagram.data.Data.groupsNames;
 
 public class Subscriber {
     public static void main(String... args) {
-        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
+//        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
+        WebDriver driver = new FirefoxDriver();
         try {
             driver.get("http://instagram.com");
             InstagramLoginPage instagramLoginPage = PageFactory.initElements(driver, InstagramLoginPage.class);

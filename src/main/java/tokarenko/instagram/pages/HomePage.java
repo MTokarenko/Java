@@ -41,27 +41,24 @@ public class HomePage extends AbstractPage {
         int listLength = 1;
         while (count != listLength) {
             try {
-                el = getDriver().findElement(By
-                        .xpath("(.//span[@class = '_7k49n']/*[contains(text(), 'Подписаться')])[1]"));
-                ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", el);
-                WebElement element = getDriver()
-                        .findElement(By.xpath("(.//a[@class=\"_4zhc5 notranslate _j7lfh\"])[1]"));
+                el = findElement("(.//span[@class = '_7k49n']/*[contains(text(), 'Подписаться')])[1]");
+                scrollTo(el);
+                WebElement element = findElement("(.//a[@class=\"_4zhc5 notranslate _j7lfh\"])[1]");
                 if (! myFollowers.contains(element.getText()))
                     el.click();
                 sleep(3);
                 if (el.getText().equals("Подписаться")) {
-                    getDriver().navigate().refresh();
+//                    getDriver().navigate().refresh();
+                    ctrlF5();
                     addFollowers(myFollowers);
                 }
                 sleep(7);
             } catch (org.openqa.selenium.NoSuchElementException ex) {
                 count = listLength;
-                List<WebElement> rowsFollowers = getDriver()
-                        .findElements(By.xpath(".//span[@class = '_7k49n']/button"));
+                List<WebElement> rowsFollowers = findElements(".//span[@class = '_7k49n']/button");
                 listLength = rowsFollowers.size();
                 WebElement lastElement = rowsFollowers.get(rowsFollowers.size()-1);
-                ((JavascriptExecutor) getDriver())
-                        .executeScript("arguments[0].scrollIntoView(true);", lastElement);
+                scrollTo(lastElement);
                 sleep(1);
             }
         }

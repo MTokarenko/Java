@@ -5,8 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import tokarenko.haulmont.tezis.pages.MainPage;
 
-import static utils.Utils.sleep;
-
 
 public class Doc extends MainPage {
 
