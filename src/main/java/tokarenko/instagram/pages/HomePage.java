@@ -36,9 +36,10 @@ public class HomePage extends AbstractPage {
     public void addFollowers(List<String> myFollowers) {
         btnClick(followers);
         wait("divs", ".//li[@class=\"_cx1ua\"]");
-        String checker = "stringForChecking";
         WebElement el;
-        while (true) {
+        int count = 0;
+        int listLength = 1;
+        while (count != listLength) {
             try {
                 el = getDriver().findElement(By
                         .xpath("(.//span[@class = '_7k49n']/*[contains(text(), 'Подписаться')])[1]"));
@@ -54,23 +55,16 @@ public class HomePage extends AbstractPage {
                 }
                 sleep(7);
             } catch (org.openqa.selenium.NoSuchElementException ex) {
-//                gotoLastElemet(".//span[@class = '_7k49n']/button");
+                count = listLength;
                 List<WebElement> rowsFollowers = getDriver()
                         .findElements(By.xpath(".//span[@class = '_7k49n']/button"));
+                listLength = rowsFollowers.size();
                 WebElement lastElement = rowsFollowers.get(rowsFollowers.size()-1);
                 ((JavascriptExecutor) getDriver())
                         .executeScript("arguments[0].scrollIntoView(true);", lastElement);
                 sleep(1);
             }
         }
-    }
-
-    private void gotoLastElemet(String xpathExpression) {
-        List<WebElement> rowsFollowers = getDriver()
-                .findElements(By.xpath(xpathExpression));
-        WebElement lastElement = rowsFollowers.get(rowsFollowers.size()-1);
-        ((JavascriptExecutor) getDriver())
-                .executeScript("arguments[0].scrollIntoView(true);", lastElement);
     }
 
     public void openProfile() {

@@ -23,8 +23,6 @@ public class UsersAndRolesCreation {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         try {
-            driver.get(URL);
-            driver.manage().window().maximize();
             LoginPage loginPage = new LoginPage(driver);
             loginPage.login("admin", "admin");
             MainPage mainPage = PageFactory.initElements(driver, MainPage.class);
