@@ -1,11 +1,10 @@
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import tokarenko.haulmont.tezis.pages.LoginPage;
 import tokarenko.haulmont.tezis.pages.MainPage;
+
 import java.util.List;
 
 import static tokarenko.haulmont.tezis.data.Data.URL;

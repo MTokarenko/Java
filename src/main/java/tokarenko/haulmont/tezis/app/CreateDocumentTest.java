@@ -9,10 +9,10 @@ import tokarenko.haulmont.tezis.pages.LoginPage;
 import static tokarenko.haulmont.tezis.data.Data.URL;
 import static utils.Utils.sleep;
 
-public class CreateDocumentTest extends Doc {
-    public CreateDocumentTest(WebDriver driver) {
-        super(driver);
-    }
+public class CreateDocumentTest {
+//    public CreateDocumentTest(WebDriver driver) {
+//        super(driver);
+//    }
 
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
@@ -24,6 +24,8 @@ public class CreateDocumentTest extends Doc {
             loginPage.login("admin", "admin");
             Doc doc = new Doc(driver);
             doc.createDocument("Письмо");
+            doc.fillInputs();
+            sleep(2);
         }catch (Throwable t) {
             t.printStackTrace();
         }finally {

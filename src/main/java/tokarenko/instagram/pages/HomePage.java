@@ -49,8 +49,8 @@ public class HomePage extends AbstractPage {
                     el.click();
                 sleep(3);
                 if (el.getText().equals("Подписаться")) {
-//                    ctrlF5();
-//                    addFollowers(myFollowers);
+                    ctrlF5();
+                    addFollowers(myFollowers);
                     getDriver().quit();
                     System.out.println("Было нажато: " + clicks);
                 }

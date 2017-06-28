@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import tokarenko.haulmont.tezis.pages.MainPage;
 
+import java.util.List;
+
 
 public class Doc extends MainPage {
 
@@ -29,6 +31,14 @@ public class Doc extends MainPage {
         chooseKind(documentKind);
         btnClick(docCreationDialogOkBtn);
         wait("div", ".//div[@cuba-id=\"WebLabel\"]");
+    }
+
+    public void fillInputs() {
+        List<WebElement> inputs = findElements(".//div[@cuba-id=\"docInfo\"]//textarea|" +
+                ".//div[@cuba-id=\"docInfo\"]//input[contains(@class, \"v-textfield\") and not(contains(@class, \"date\"))]");
+        for (WebElement input: inputs) {
+            input.sendKeys("test");
+        }
     }
 
     private void chooseKind(String documentKind) {
