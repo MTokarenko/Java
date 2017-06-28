@@ -24,7 +24,6 @@ public class CreateDocumentTest extends Doc {
             loginPage.login("admin", "admin");
             Doc doc = new Doc(driver);
             doc.createDocument("Письмо");
-//            sleep(3);
         }catch (Throwable t) {
             t.printStackTrace();
         }finally {

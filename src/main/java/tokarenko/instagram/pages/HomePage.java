@@ -38,6 +38,7 @@ public class HomePage extends AbstractPage {
         wait("divs", ".//li[@class=\"_cx1ua\"]");
         WebElement el;
         int count = 0;
+        int clicks = 0;
         int listLength = 1;
         while (count != listLength) {
             try {
@@ -48,10 +49,12 @@ public class HomePage extends AbstractPage {
                     el.click();
                 sleep(3);
                 if (el.getText().equals("Подписаться")) {
-//                    getDriver().navigate().refresh();
-                    ctrlF5();
-                    addFollowers(myFollowers);
+//                    ctrlF5();
+//                    addFollowers(myFollowers);
+                    getDriver().quit();
+                    System.out.println("Было нажато: " + clicks);
                 }
+                clicks +=1;
                 sleep(7);
             } catch (org.openqa.selenium.NoSuchElementException ex) {
                 count = listLength;
