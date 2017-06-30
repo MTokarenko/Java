@@ -1,6 +1,9 @@
 package tokarenko.haulmont.tezis.pages;
 
 
+import com.codeborne.selenide.SelenideElement;
+import com.haulmont.masquerade.Wire;
+import com.haulmont.masquerade.components.Untyped;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import tokarenko.AbstractPage;
 
+import static com.codeborne.selenide.Selenide.$;
 import static utils.Utils.sleep;
 import static tokarenko.haulmont.tezis.data.Data.*;
 
@@ -30,6 +34,11 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//span[@cuba-id=\"sec$User.browse\"]")
     protected WebElement usersBtn;
 
+
+
+    @Wire(path = "sec$User.browse")
+    protected Untyped userBtnMasq;
+
     @FindBy(xpath = "//span[@cuba-id=\"sec$Role.browse\"]")
     protected WebElement rolesBtn;
 
@@ -43,7 +52,13 @@ public class MainPage extends AbstractPage {
     }
 
     public AbstractPage openUsersScreen() {
-        btnClick(administrationBTN).btnClick(usersBtn);
+        try {
+            btnClick(administrationBTN);
+            usersBtn.isDisplayed();
+        }catch (org.openqa.selenium.NoSuchElementException ex) {
+            btnClick(administrationBTN);
+        }
+        btnClick(usersBtn);
         return this;
     }
 
@@ -80,6 +95,30 @@ public class MainPage extends AbstractPage {
         return users;
     }
 
+    public List<String> getReferences() {
+        String referencexPath = ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-menuitem-caption\"]";
+        Set<String> references = new HashSet<>();
+        btnClick(referenceBTN);
+        wait("divs", referencexPath);
+        try {
+            List<WebElement> refTmp = findElements(".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]");
+            for (WebElement el: refTmp ) {
+                el.click();
+                List<WebElement> refWebEl = findElements(referencexPath);
+                for (WebElement el1: refWebEl) {
+                    references.add(el1.getText());
+                }
+            }
+        }catch (Throwable t){
+            List<WebElement> refWebEl = findElements(referencexPath);
+            for (WebElement element: refWebEl) {
+                references.add(element.getText());
+            }
+        }
+        btnClick(referenceBTN);
+        return new ArrayList<>(references);
+    }
+
     public List<String> getRowsFromLongTable(String columnNumber) {
         int stringsCount = -1;
         showAllRowsStrings();
@@ -110,7 +149,7 @@ public class MainPage extends AbstractPage {
         return roles;
     }
 
-    public List getUsers() {
+    public List getUsers(){
         openUsersScreen();
         List users = getRowsFromLongTable("3");
         btnClick(".//div[contains(text(), 'Пользователи')]/following-sibling::span");

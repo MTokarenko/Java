@@ -68,6 +68,38 @@ public class NewUserScreen extends MainPage {
         }
     }
 
+    public void createUser(String roleName) {
+        List<String> currentUsers = getRowsFromLongTable("3");
+        if (!currentUsers.contains(roleName)) {
+            createNewUserBtn();
+            fieldInsert(login, roleName);
+            password.sendKeys("123");
+            confirmPassword.sendKeys("123");
+            surname.sendKeys(roleName);
+            mail.sendKeys("QA_test@haulmont.com");
+            sendWelcomeEmail.sendKeys(Keys.SPACE);
+            chooseGroup("Ограниченный доступ");
+            changePasswordAtNextEnter.sendKeys(Keys.SPACE);
+            btnClick(rolesBtn);
+            String roleXpath = String.format(".//div[. = \"%s\"]", roleName);
+            wait("div", roleXpath);
+            btnClick(roleXpath);
+            btnClick(".//div[@cuba-id=\"selectButton\"]");
+            btnClick(".//div[@cuba-id=\"windowCommit\"]");
+            btnClick(".//div[@cuba-id=\"optionDialog_yes\"]");
+            wait("div", ".//div[@cuba-id=\"user\"]");
+            btnClick(".//div[@cuba-id=\"windowCommit\"]");
+        }else {
+        }
+    }
+
+    private void chooseGroup(final String groupName) {
+        groupBtn.click();
+        btnClick(".//span[contains(text(), '" + groupName + "')]");
+        sleep(1); //!!!!!!!!!
+        btnClick(".//div[@cuba-id=\"selectButton\"]");
+    }
+
     private void createNewUserBtn() {
         btnClick(".//div[@cuba-id=\"createPopupButton\"]");
         btnClick(".//div[@cuba-id=\"create\"]");
@@ -80,11 +112,7 @@ public class NewUserScreen extends MainPage {
         surname.sendKeys(roleText);
         mail.sendKeys(email);
         sendWelcomeEmail.sendKeys(Keys.SPACE);
-        groupBtn.click();
-        btnClick(".//span[contains(text(), 'Ограниченный доступ')]");
-//        wait("div", ".//span[contains(text(), 'Ограниченный доступ')]/ancestor::div[3][@aria-selected=\"true\"]");
-        sleep(1); //!!!!!!!!!
-        btnClick(".//div[@cuba-id=\"selectButton\"]");
+        chooseGroup("Ограниченный доступ");
         changePasswordAtNextEnter.sendKeys(Keys.SPACE);
         btnClick(rolesBtn);
         String roleXpath = String.format(".//div[text() = \"%s\"]", roleText);

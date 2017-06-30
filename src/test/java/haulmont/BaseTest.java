@@ -8,17 +8,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import tokarenko.AbstractPage;
 
 
-public class BaseTest extends AbstractPage {
+public class BaseTest {
 
-
-    public BaseTest(WebDriver driver) {
-        super(driver);
-    }
 
     @Before
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
-        WebDriver driver = getDriver();
+        WebDriver driver = new ChromeDriver();
     }
 
     @After

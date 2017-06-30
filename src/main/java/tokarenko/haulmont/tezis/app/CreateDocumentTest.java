@@ -10,9 +10,6 @@ import static tokarenko.haulmont.tezis.data.Data.URL;
 import static utils.Utils.sleep;
 
 public class CreateDocumentTest {
-//    public CreateDocumentTest(WebDriver driver) {
-//        super(driver);
-//    }
 
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");

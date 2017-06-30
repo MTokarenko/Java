@@ -2,15 +2,15 @@ package haulmont;
 
 
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import tokarenko.haulmont.tezis.docs.Doc;
 
 public class CreateDocumentTest extends BaseTest {
 
-    public CreateDocumentTest(WebDriver driver) {
-        super(driver);
-    }
+//    public CreateDocumentTest(WebDriver driver) {
+//        super(driver);
+//    }
 
     private WebElement createDocDialogOkBtn;
 
@@ -22,9 +22,6 @@ public class CreateDocumentTest extends BaseTest {
 
     @Test
     public void createDocument(String documentKind) {
-        openDialogDocCreator();
-//        chooseKind(documentKind);
-//        btnClick(createDocDialogOkBtn);
 
     }
 
@@ -32,8 +29,4 @@ public class CreateDocumentTest extends BaseTest {
 
     }
 
-    private void openDialogDocCreator() {
-        btnClick(DOCUMENTS).btnClick(createDocumentBtn);
-        wait("div", ".//div[@cuba-id=\"docKindLookup\"]");
-    }
 }

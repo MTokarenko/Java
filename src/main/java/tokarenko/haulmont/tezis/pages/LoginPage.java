@@ -21,6 +21,9 @@ public class LoginPage extends AbstractPage {
     @FindBy(xpath = "//div[@cuba-id='loginSubmitButton']")
     protected WebElement enterButton;
 
+    @FindBy(xpath = "//div[@cuba-id=\"logoutButton\"]")
+    protected WebElement logoutBtn;
+
     public LoginPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -32,5 +35,10 @@ public class LoginPage extends AbstractPage {
         fieldInsert(userPass, pass);
         enterButton.click();
         wait("div", TEZIS_BTN);
+    }
+
+    public void relogin(String login, String pass) {
+        btnClick(logoutBtn);
+        login(login, pass);
     }
 }

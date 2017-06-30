@@ -35,7 +35,8 @@ public class Doc extends MainPage {
 
     public void fillInputs() {
         List<WebElement> inputs = findElements(".//div[@cuba-id=\"docInfo\"]//textarea|" +
-                ".//div[@cuba-id=\"docInfo\"]//input[contains(@class, \"v-textfield\") and not(contains(@class, \"date\"))]");
+                ".//div[@cuba-id=\"docInfo\"]//input[contains(@class, \"v-textfield\")" +
+                "and not(contains(@class, \"date\"))]");
         for (WebElement input: inputs) {
             input.sendKeys("test");
         }
