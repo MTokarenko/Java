@@ -1,8 +1,6 @@
 package haulmont.appmanager;
 
-import haulmont.appmanager.pages.Main;
-import haulmont.appmanager.pages.Page;
-import haulmont.appmanager.pages.Login;
+import haulmont.appmanager.pages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.BrowserType;
@@ -18,6 +16,8 @@ public class ApplicationManager {
 
     private Login login;
     private Main mainPage;
+    private NewUser newUser;
+    private Substitutions substitutions;
 
     public void init() {
         String browser = BrowserType.CHROME;
@@ -25,8 +25,12 @@ public class ApplicationManager {
         driver = new ChromeDriver();
         driver.get(URL);
         driver.manage().window().maximize();
+
         login = new Login(driver);
         mainPage = new Main(driver);
+        newUser = new NewUser(driver);
+        substitutions = new Substitutions(driver);
+
         login.login("admin", "admin");
     }
 
@@ -42,4 +46,11 @@ public class ApplicationManager {
         return mainPage;
     }
 
+    public NewUser getNewUser() {
+        return newUser;
+    }
+
+    public Substitutions getSubstitutions() {
+        return substitutions;
+    }
 }

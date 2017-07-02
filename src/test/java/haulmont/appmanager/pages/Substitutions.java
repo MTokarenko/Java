@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Substitutions extends Main {
+public class Substitutions extends Page {
 
     @FindBy(xpath = "//div[@cuba-id=\"create\"]")
     private WebElement createBtn;
@@ -28,6 +28,8 @@ public class Substitutions extends Main {
     @FindBy(xpath = ".//div[@cuba-id=\"WebLookupPickerField_ds\"]/input")
     private WebElement filterLookupPickerField;
 
+    private Main mainPage = new Main(driver);
+
     public Substitutions(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -39,7 +41,7 @@ public class Substitutions extends Main {
         filterLookupPickerField.sendKeys(Keys.ARROW_DOWN);
         filterLookupPickerField.sendKeys(Keys.ENTER);
         btnClick(".//div[@cuba-id=\"search\"]");
-        List<String> subs = getRowsFromLongTable("3");
+        List<String> subs = mainPage.getRowsFromLongTable("3");
         return  subs;
     }
 
@@ -63,8 +65,8 @@ public class Substitutions extends Main {
     }
 
     private List<String> getUsersForSubs() {
-        List<String> roles = getRoles();
-        List<String> users = getUsers();
+        List<String> roles = mainPage.getRoles();
+        List<String> users = mainPage.getUsers();
         List<String> usersForSubs = new ArrayList<String>();
         for(String user: users) {
             if(roles.contains(user)) {

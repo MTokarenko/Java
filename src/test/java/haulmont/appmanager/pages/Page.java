@@ -13,7 +13,7 @@ import java.util.List;
 public class Page {
 
     protected WebDriverWait waiting;
-    private WebDriver driver;
+    protected WebDriver driver;
 
     public Page(WebDriver driver) {
         this.driver = driver;
