@@ -16,7 +16,6 @@ import static tokarenko.instagram.data.Data.groupsNames;
 
 public class Subscriber {
     public static void main(String... args) {
-//        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
         System.setProperty("webdriver.gecko.driver", "src\\main\\resources\\drivers\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
         try {

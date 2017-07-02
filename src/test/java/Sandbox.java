@@ -1,3 +1,4 @@
+import haulmont.appmanager.pages.Login;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,12 +17,8 @@ public class Sandbox {
         try {
             driver.get(URL);
             driver.manage().window().maximize();
-            LoginPage loginPage = new LoginPage(driver);
+            Login loginPage = new Login(driver);
             loginPage.login("admin", "admin");
-            MainPage mainPage = new MainPage(driver);
-            List<String > ref = mainPage.getReferences();
-            System.out.println(ref);
-
         } catch (Throwable t) {
             t.printStackTrace();
 

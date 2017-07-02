@@ -34,7 +34,7 @@ public class ReferenceTests {
             NewUserScreen newUser = new NewUserScreen(driver);
             mainPage.openUsersScreen();
             newUser.createUser("SimpleUser");
-            loginPage.relogin("SimpleUser", "123");
+            mainPage.relogin("SimpleUser", "123");
             List<String> referenceSimpleUser = mainPage.getReferences();
             if(referenceAdmin.size() == referenceSimpleUser.size() && referenceAdmin.containsAll(referenceSimpleUser)){
                 System.out.println("OK");

@@ -1,4 +1,4 @@
-package haulmont;
+package haulmont.tests;
 
 
 import org.junit.Test;
@@ -6,11 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import tokarenko.haulmont.tezis.docs.Doc;
 
-public class CreateDocumentTest extends BaseTest {
+import static utils.Utils.sleep;
 
-//    public CreateDocumentTest(WebDriver driver) {
-//        super(driver);
-//    }
+public class DocumentCreationTest extends TestBase {
 
     private WebElement createDocDialogOkBtn;
 
@@ -21,12 +19,15 @@ public class CreateDocumentTest extends BaseTest {
     private WebElement createDocumentBtn;
 
     @Test
-    public void createDocument(String documentKind) {
-
-    }
-
-    private void chooseKind(String documentKind) {
-
+    public void testCreationSimpleDoc() {
+        try {
+            Doc doc = new Doc(app.driver);
+            doc.createDocument("Письмо");
+            doc.fillInputs();
+            sleep(2);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
 
 }

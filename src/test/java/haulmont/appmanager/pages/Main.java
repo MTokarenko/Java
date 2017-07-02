@@ -1,4 +1,4 @@
-package tokarenko.haulmont.tezis.pages;
+package haulmont.appmanager.pages;
 
 
 import org.openqa.selenium.By;
@@ -16,7 +16,10 @@ import static tokarenko.haulmont.tezis.data.Data.TEZIS_BTN;
 import static utils.Utils.sleep;
 
 
-public class MainPage extends AbstractPage {
+public class Main extends Page{
+
+    private WebDriver driver;
+
     @FindBy(xpath = TEZIS_BTN)
     protected WebElement tezisLogo;
 
@@ -38,13 +41,13 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//div[@cuba-id=\"logoutButton\"]")
     protected WebElement logoutBtn;
 
-    public MainPage(WebDriver driver) {
+    public Main(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-        wait("div", tezisLogo);
     }
 
-    public AbstractPage openUsersScreen() {
+
+    public Main openUsersScreen() {
         try {
             btnClick(administrationBTN);
             usersBtn.isDisplayed();
@@ -55,13 +58,13 @@ public class MainPage extends AbstractPage {
         return this;
     }
 
-    public AbstractPage openRolesScreen() {
+    public Main openRolesScreen() {
         btnClick(administrationBTN).btnClick(rolesBtn);
         wait("div", ".//td[@cuba-id=\"tab_sec$Role.browse\"]");
         return this;
     }
 
-    public AbstractPage openSubstitutionScreen() {
+    public Main openSubstitutionScreen() {
         btnClick(referenceBTN).btnClick(substitutionsBtn);
         wait("div", ".//td[@cuba-id=\"tab_df$UserSubstitution.browse\"]");
         return this;
@@ -70,7 +73,7 @@ public class MainPage extends AbstractPage {
     public void showAllRowsStrings() {
         wait("div", ".//div[@cuba-id=\"tableSettings\"]");
         sleep(1);
-        getDriver().findElement(By.xpath(".//div[@cuba-id=\"tableSettings\"]")).click();
+        driver.findElement(By.xpath(".//div[@cuba-id=\"tableSettings\"]")).click();
         btnClick(".//div[@cuba-id=\"setMaxResults_0\"]");
         waiting.until(ExpectedConditions.textToBePresentInElementLocated
                 (By.xpath(".//div[contains(@class, 'paging-status')][contains(text(), 'строк')]"), "строк"));
@@ -81,7 +84,7 @@ public class MainPage extends AbstractPage {
                 (".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[%s]", rowNumber);
         List<String> users = new ArrayList<>();
         waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(fieldXpath)));
-        List <WebElement> elements = getDriver().findElements(By.xpath(fieldXpath));
+        List <WebElement> elements = driver.findElements(By.xpath(fieldXpath));
         for (WebElement element: elements) {
             users.add(element.getText());
         }
@@ -122,12 +125,12 @@ public class MainPage extends AbstractPage {
             stringsCount = usersTmp.size();
             waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(fieldXpath)));
             sleep(1);
-            List<WebElement> elements = getDriver().findElements(By.xpath(fieldXpath));
+            List<WebElement> elements = driver.findElements(By.xpath(fieldXpath));
             for (WebElement element : elements) {
                 usersTmp.add(element.getText());
             }
             WebElement lastElement = elements.get(elements.size()-1);
-            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", lastElement);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastElement);
 
             lastElement.click();
         }
@@ -149,9 +152,7 @@ public class MainPage extends AbstractPage {
         return users;
     }
 
-    public void relogin(String login, String pass) {
+    public void logout() {
         btnClick(logoutBtn);
-        LoginPage loginPage = new LoginPage(getDriver());
-        loginPage.login(login, pass);
     }
 }

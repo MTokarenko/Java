@@ -1,4 +1,4 @@
-package tokarenko.haulmont.tezis.pages;
+package haulmont.appmanager.pages;
 
 
 import org.openqa.selenium.WebDriver;
@@ -6,11 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import tokarenko.AbstractPage;
-import static tokarenko.haulmont.tezis.data.Data.*;
+import static tokarenko.haulmont.tezis.data.Data.TEZIS_BTN;
 
 
-public class LoginPage extends AbstractPage {
+public class Login extends Page{
 
     @FindBy(xpath = "//input[@cuba-id='loginField']")
     protected WebElement userName;
@@ -21,7 +20,7 @@ public class LoginPage extends AbstractPage {
     @FindBy(xpath = "//div[@cuba-id='loginSubmitButton']")
     protected WebElement enterButton;
 
-    public LoginPage(WebDriver driver) {
+    public Login(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
         wait("button", enterButton);
