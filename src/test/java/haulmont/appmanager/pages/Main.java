@@ -18,8 +18,6 @@ import static utils.Utils.sleep;
 
 public class Main extends Page{
 
-    private WebDriver driver;
-
     @FindBy(xpath = TEZIS_BTN)
     protected WebElement tezisLogo;
 
@@ -40,6 +38,8 @@ public class Main extends Page{
 
     @FindBy(xpath = "//div[@cuba-id=\"logoutButton\"]")
     protected WebElement logoutBtn;
+
+    private Login loginPage = new Login(driver);
 
     public Main(WebDriver driver) {
         super(driver);
@@ -155,4 +155,10 @@ public class Main extends Page{
     public void logout() {
         btnClick(logoutBtn);
     }
+
+    public void relogin(String login, String pass) {
+        logout();
+        loginPage.login(login, pass);
+    }
+
 }

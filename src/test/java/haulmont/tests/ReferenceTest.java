@@ -2,8 +2,6 @@ package haulmont.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
-import tokarenko.haulmont.tezis.pages.MainPage;
-import tokarenko.haulmont.tezis.pages.NewUserScreen;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +19,7 @@ public class ReferenceTest extends TestBase {
         referenceAdmin.removeAll(ignoredReferences);
         app.getMainPage().openUsersScreen();
         app.getNewUser().createUser("SimpleUser");
-        app.getMainPage().logout();
-        app.getLogin().login("SimpleUser", "123");
+        app.getMainPage().relogin("SimpleUser", "123");
         List<String> referenceSimpleUser = app.getMainPage().getReferences();
         Assert.assertTrue(referenceAdmin.size() == referenceSimpleUser.size()
                 && referenceAdmin.containsAll(referenceSimpleUser));
