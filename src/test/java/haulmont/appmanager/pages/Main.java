@@ -163,6 +163,9 @@ public class Main extends Page{
 
     public Main relogin(String login, String pass) {
         logout();
+        if (login.equals("admin")) {
+            pass = "admin";
+        }
         loginPage.login(login, pass);
         return this;
     }
@@ -185,6 +188,17 @@ public class Main extends Page{
         }
         btnClick(typicalResolutions);
         wait("div", ".//div[@cuba-id=\"create\"]");
+        return this;
+    }
+
+    public Main checkUsers(List<String> roles) {
+        List<String> users = getUsers();
+        for (String role: roles) {
+            if (! users.contains(role)) {
+                NewUser newUser = new NewUser(driver);
+                newUser.createUser(role);
+            }
+        }
         return this;
     }
 }

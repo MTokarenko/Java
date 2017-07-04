@@ -28,16 +28,16 @@ public class ReferenceTest extends TestBase {
     }
 
     @Test
-    public void testReferenceCreation() {
-        String role = "doc_approver";
-        List<String> roles = Arrays.asList("doc_approver");
-        app.getMainPage()
-                .checkUser(role)
-                .relogin(role, "123")
-                .openTypicalResolutionPage();
-
-
-        sleep(3);
+    public void testTypicalResolutionCreation() {
+        List<String> roles = Arrays.asList("admin", "doc_approver", "ReferenceEditor", "doc_initiator");
+        app.getMainPage().checkUsers(roles);
+        for (String role: roles) {
+            app.getMainPage()
+                    .relogin(role, "123")
+                    .openTypicalResolutionPage();
+            Assert.assertTrue(String.format("Create button disabled for user with role %s", role),
+                    app.getTypicalResolution().createBtn_enabled.isEnabled());
+        }
     }
 
 }

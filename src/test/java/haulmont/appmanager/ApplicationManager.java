@@ -18,6 +18,7 @@ public class ApplicationManager {
     private Main mainPage;
     private NewUser newUser;
     private Substitutions substitutions;
+    private TypicalResolution typicalResolution;
 
     public void init() {
         String browser = BrowserType.CHROME;
@@ -30,6 +31,7 @@ public class ApplicationManager {
         mainPage = new Main(driver);
         newUser = new NewUser(driver);
         substitutions = new Substitutions(driver);
+        typicalResolution = new TypicalResolution(driver);
 
         login.login("admin", "admin");
     }
@@ -52,5 +54,9 @@ public class ApplicationManager {
 
     public Substitutions getSubstitutions() {
         return substitutions;
+    }
+
+    public TypicalResolution getTypicalResolution() {
+        return typicalResolution;
     }
 }
