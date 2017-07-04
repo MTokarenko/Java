@@ -1,4 +1,4 @@
-package haulmont.appmanager;
+/*package haulmont.appmanager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -7,7 +7,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.util.Properties;
 
 public class Init {
 
@@ -51,3 +50,4 @@ public class Init {
     }
 
 }
+*/

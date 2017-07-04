@@ -12,7 +12,9 @@ import static tokarenko.haulmont.tezis.data.Data.URL;
 
 public class Sandbox {
     public static void main(String[] args) {
-        System.setProperty("webdriver.gecko.driver", "src\\main\\resources\\drivers\\geckodriver.exe");
+
+
+        /*System.setProperty("webdriver.gecko.driver", "src\\main\\resources\\drivers\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
         try {
             driver.get(URL);
@@ -24,6 +26,6 @@ public class Sandbox {
 
         } finally {
             driver.quit();
-        }
+        }*/
     }
 }

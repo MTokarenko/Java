@@ -1,4 +1,4 @@
-package haulmont.appmanager;
+/*package haulmont.appmanager;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -54,3 +54,4 @@ public class Prop {
     }
 
 }
+*/

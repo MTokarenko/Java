@@ -39,6 +39,9 @@ public class Main extends Page{
     @FindBy(xpath = "//div[@cuba-id=\"logoutButton\"]")
     protected WebElement logoutBtn;
 
+    @FindBy(xpath = ".//span[@cuba-id=\"df$TypicalResolution.browse\"]")
+    protected WebElement typicalResolutions;
+
     private Login loginPage = new Login(driver);
 
     public Main(WebDriver driver) {
@@ -55,6 +58,7 @@ public class Main extends Page{
             btnClick(administrationBTN);
         }
         btnClick(usersBtn);
+        wait("div", ".//div[@cuba-id=\"createPopupButton\"]");
         return this;
     }
 
@@ -97,7 +101,8 @@ public class Main extends Page{
         btnClick(referenceBTN);
         wait("divs", referencexPath);
         try {
-            List<WebElement> refTmp = findElements(".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]");
+            List<WebElement> refTmp = findElements(
+                    ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]");
             for (WebElement el: refTmp ) {
                 el.click();
                 List<WebElement> refWebEl = findElements(referencexPath);
@@ -156,9 +161,30 @@ public class Main extends Page{
         btnClick(logoutBtn);
     }
 
-    public void relogin(String login, String pass) {
+    public Main relogin(String login, String pass) {
         logout();
         loginPage.login(login, pass);
+        return this;
     }
 
+    public Main checkUser(String role) {
+        List<String> users = getUsers();
+        if (! users.contains(role)) {
+            NewUser newUser = new NewUser(driver);
+            newUser.createUser(role);
+        }
+        return this;
+    }
+
+    public Main openTypicalResolutionPage() {
+        try {
+            btnClick(referenceBTN);
+            typicalResolutions.isDisplayed();
+        }catch (org.openqa.selenium.NoSuchElementException ex) {
+            btnClick(referenceBTN);
+        }
+        btnClick(typicalResolutions);
+        wait("div", ".//div[@cuba-id=\"create\"]");
+        return this;
+    }
 }
