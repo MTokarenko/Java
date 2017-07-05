@@ -47,7 +47,6 @@ public class NewUser extends Page {
             "schedule_task_creator", "SubdivisionChief", "UserSubstitutionEditor", "AppIntegrationRole",
             "Блокировка блока документов"));
 
-    private Main mainPage = new Main(driver);
 
     public NewUser(WebDriver driver) {
         super(driver);
@@ -55,6 +54,7 @@ public class NewUser extends Page {
     }
 
     public void createUsers(String email) {
+        Main mainPage = new Main(driver);
         List<String> currentUsers = mainPage.getRowsFromLongTable("3");
         List<String> roles = mainPage.getRoles();
         roles.removeAll(rejectedGroups);
@@ -71,15 +71,16 @@ public class NewUser extends Page {
     }
 
     public void createUser(String roleName) {
-        List<String> currentUsers = mainPage.getRowsFromLongTable("3");
-        if (!currentUsers.contains(roleName)) {
+//        Main mainPage = new Main(driver);
+//        List<String> currentUsers = mainPage.getRowsFromLongTable("3");
+//        if (!currentUsers.contains(roleName)) {
             createNewUserBtn();
             usersMainInfoFilling("QA_test@haulmont.com", roleName);
             btnClick(".//div[@cuba-id=\"windowCommit\"]");
             btnClick(".//div[@cuba-id=\"optionDialog_yes\"]");
             wait("div", ".//div[@cuba-id=\"user\"]");
             btnClick(".//div[@cuba-id=\"windowCommit\"]");
-        }
+//        }
     }
 
     private void chooseGroup(final String groupName) {

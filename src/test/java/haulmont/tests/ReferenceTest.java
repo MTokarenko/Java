@@ -57,14 +57,20 @@ public class ReferenceTest extends TestBase {
     }
 
     @Test
-    public void testReferencesForEditorAndAdmin() {
-        List<String> roles = Arrays.asList("admin", "ReferenceEditor");
-        List<String> references = Arrays.asList("admin", "ReferenceEditor");
+    public void testReferencesVisibleForUsers() {
+        List<String> roles = Arrays.asList("admin", "UserSubstitutionEditor", "SimpleUser");
+        List<String> references = Arrays.asList("Замещение пользователей");
         app.getMainPage().checkUsers(roles);
         for (String role : roles) {
             app.getMainPage()
                     .relogin(role, "123");
-
+            List<String> currentRefs = app.getMainPage().getReferences();
+            if (! role.equals("SimpleUser")) {
+                Assert.assertTrue(currentRefs.containsAll(references));
+            }
+            else {
+                Assert.assertFalse(currentRefs.containsAll(references));
+            }
         }
     }
 

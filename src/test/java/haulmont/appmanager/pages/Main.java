@@ -42,7 +42,7 @@ public class Main extends Page{
     @FindBy(xpath = ".//span[@cuba-id=\"df$TypicalResolution.browse\"]")
     protected WebElement typicalResolutions;
 
-    private Login loginPage = new Login(driver);
+//    private Login loginPage = new Login(driver);
 
     public Main(WebDriver driver) {
         super(driver);
@@ -153,7 +153,7 @@ public class Main extends Page{
     public List getUsers(){
         openUsersScreen();
         List users = getRowsFromLongTable("3");
-        btnClick(".//div[contains(text(), 'Пользователи')]/following-sibling::span");
+//        btnClick(".//div[contains(text(), 'Пользователи')]/following-sibling::span");
         return users;
     }
 
@@ -162,6 +162,7 @@ public class Main extends Page{
     }
 
     public Main relogin(String login, String pass) {
+        Login loginPage = new Login(driver);
         logout();
         if (login.equals("admin")) {
             pass = "admin";
@@ -192,10 +193,10 @@ public class Main extends Page{
     }
 
     public Main checkUsers(List<String> roles) {
+        NewUser newUser = new NewUser(driver);
         List<String> users = getUsers();
         for (String role: roles) {
             if (! users.contains(role)) {
-                NewUser newUser = new NewUser(driver);
                 newUser.createUser(role);
             }
         }
