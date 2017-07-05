@@ -1,10 +1,12 @@
 package haulmont.tests;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static utils.Utils.sleep;
 
@@ -29,14 +31,40 @@ public class ReferenceTest extends TestBase {
 
     @Test
     public void testTypicalResolutionCreation() {
-        List<String> roles = Arrays.asList("admin", "doc_approver", "ReferenceEditor", "doc_initiator");
+        List<String> roles = Arrays.asList("admin", "doc_approver", "ReferenceEditor");
         app.getMainPage().checkUsers(roles);
-        for (String role: roles) {
+        for (String role : roles) {
             app.getMainPage()
                     .relogin(role, "123")
                     .openTypicalResolutionPage();
             Assert.assertTrue(String.format("Create button disabled for user with role %s", role),
                     app.getTypicalResolution().createBtn_enabled.isEnabled());
+        }
+    }
+
+    @Ignore
+    public void testTypicalResolutionEdition() {
+        List<String> roles = Arrays.asList("admin", "doc_approver", "ReferenceEditor");
+        app.getMainPage().checkUsers(roles);
+        for (String role : roles) {
+            app.getMainPage()
+                    .relogin(role, "123")
+                    .openTypicalResolutionPage();
+            if (role.equals("admin")) {
+
+            }
+        }
+    }
+
+    @Test
+    public void testReferencesForEditorAndAdmin() {
+        List<String> roles = Arrays.asList("admin", "ReferenceEditor");
+        List<String> references = Arrays.asList("admin", "ReferenceEditor");
+        app.getMainPage().checkUsers(roles);
+        for (String role : roles) {
+            app.getMainPage()
+                    .relogin(role, "123");
+
         }
     }
 
