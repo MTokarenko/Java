@@ -1,14 +1,10 @@
 import haulmont.appmanager.pages.Login;
-import org.junit.Assert;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
-import tokarenko.haulmont.tezis.pages.LoginPage;
-import tokarenko.haulmont.tezis.pages.MainPage;
-
-import java.util.List;
+import org.testng.Assert;
 
 import static tokarenko.haulmont.tezis.data.Data.TEZIS_BTN;
 import static tokarenko.haulmont.tezis.data.Data.URL;
@@ -23,9 +19,17 @@ public class Sandbox {
             driver.get(URL);
             driver.manage().window().maximize();
             Login loginPage = new Login(driver);
-            loginPage.login("admin", "admin");
-            Assert.assertFalse("Nop", driver.findElement(By.xpath(TEZIS_BTN)).isDisplayed());
+            loginPage.login("doc_initiator", "123");
+            Assert.assertTrue(driver.findElement(By.xpath(TEZIS_BTN)).isDisplayed(), "Nop");
             System.out.println("OK");
+            try {
+                String currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"substitutedUserSelect\"]/input")).getAttribute("value");
+                System.out.println(currentUser);
+            } catch (NoSuchElementException ex) {
+                String currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
+                System.out.println(currentUser);
+            }
+
         } catch (Throwable t) {
             t.printStackTrace();
 

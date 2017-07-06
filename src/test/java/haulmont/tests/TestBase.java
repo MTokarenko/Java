@@ -2,20 +2,27 @@ package haulmont.tests;
 
 
 import haulmont.appmanager.ApplicationManager;
-import org.junit.After;
-import org.junit.Before;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
 
 public class TestBase {
 
     protected final ApplicationManager app = new ApplicationManager();
 
-    @Before
+    @BeforeClass
     public void setUp() {
         app.init();
     }
 
-    @After
+    @BeforeMethod
+    public void reloginToAdmin() {
+        app.getMainPage().relogin("admin", "admin");
+    }
+
+    @AfterClass
     public void tearDown() {
         app.stop();
     }

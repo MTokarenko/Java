@@ -71,9 +71,6 @@ public class NewUser extends Page {
     }
 
     public void createUser(String roleName) {
-//        Main mainPage = new Main(driver);
-//        List<String> currentUsers = mainPage.getRowsFromLongTable("3");
-//        if (!currentUsers.contains(roleName)) {
             createNewUserBtn();
             usersMainInfoFilling("QA_test@haulmont.com", roleName);
             btnClick(".//div[@cuba-id=\"windowCommit\"]");

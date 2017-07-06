@@ -162,6 +162,7 @@ public class Main extends Page{
     }
 
     public Main relogin(String login, String pass) {
+
         Login loginPage = new Login(driver);
         logout();
         if (login.equals("admin")) {
@@ -170,6 +171,7 @@ public class Main extends Page{
         loginPage.login(login, pass);
         return this;
     }
+
 
     public Main checkUser(String role) {
         List<String> users = getUsers();

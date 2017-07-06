@@ -21,6 +21,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.testng', name: 'testng', version: '6.11'
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.4.0'
     compile group: 'org.apache.maven', name: 'maven-project', version: '2.2.1'
     compile 'com.haulmont.masquerade:masquerade-web:0.1-SNAPSHOT'
