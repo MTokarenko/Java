@@ -1,10 +1,7 @@
 package haulmont.appmanager.pages;
 
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -162,13 +159,20 @@ public class Main extends Page{
     }
 
     public Main relogin(String login, String pass) {
-
-        Login loginPage = new Login(driver);
-        logout();
-        if (login.equals("admin")) {
-            pass = "admin";
+        String currentUser;
+        try {
+            currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"substitutedUserSelect\"]/input")).getAttribute("value");
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
+            currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
         }
-        loginPage.login(login, pass);
+        if  (! login.equals(currentUser)) {
+            Login loginPage = new Login(driver);
+            logout();
+            if (login.equals("admin")) {
+                pass = "admin";
+            }
+            loginPage.login(login, pass);
+        }
         return this;
     }
 
