@@ -1,12 +1,3 @@
-
-.idea/workspace.xml
-.idea/modules/web-selenium_main.iml
-.idea/modules/web-selenium_main.iml
-*.iml
-.idea/libraries/Gradle__com_codeborne_phantomjsdriver_1_4_0.xml
-.idea/libraries/Gradle__com_haulmont_masquerade_masquerade_web_0_1_SNAPSHOT.xml
 *.class
 *.xml
 *.iml
-*.class
-*.class

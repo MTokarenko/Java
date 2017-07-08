@@ -24,10 +24,8 @@ public class Sandbox {
             System.out.println("OK");
             try {
                 String currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"substitutedUserSelect\"]/input")).getAttribute("value");
-                System.out.println(currentUser);
             } catch (NoSuchElementException ex) {
                 String currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
-                System.out.println(currentUser);
             }
 
         } catch (Throwable t) {

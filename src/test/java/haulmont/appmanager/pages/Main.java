@@ -1,10 +1,7 @@
 package haulmont.appmanager.pages;
 
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,7 +13,7 @@ import static tokarenko.haulmont.tezis.data.Data.TEZIS_BTN;
 import static utils.Utils.sleep;
 
 
-public class Main extends Page{
+public class Main extends Page {
 
     @FindBy(xpath = TEZIS_BTN)
     protected WebElement tezisLogo;
@@ -54,7 +51,7 @@ public class Main extends Page{
         try {
             btnClick(administrationBTN);
             usersBtn.isDisplayed();
-        }catch (org.openqa.selenium.NoSuchElementException ex) {
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
             btnClick(administrationBTN);
         }
         btnClick(usersBtn);
@@ -63,7 +60,13 @@ public class Main extends Page{
     }
 
     public Main openRolesScreen() {
-        btnClick(administrationBTN).btnClick(rolesBtn);
+        try {
+            btnClick(administrationBTN);
+            rolesBtn.isDisplayed();
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
+            btnClick(administrationBTN);
+        }
+        btnClick(rolesBtn);
         wait("div", ".//td[@cuba-id=\"tab_sec$Role.browse\"]");
         return this;
     }
@@ -88,8 +91,8 @@ public class Main extends Page{
                 (".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[%s]", rowNumber);
         List<String> users = new ArrayList<>();
         waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(fieldXpath)));
-        List <WebElement> elements = driver.findElements(By.xpath(fieldXpath));
-        for (WebElement element: elements) {
+        List<WebElement> elements = driver.findElements(By.xpath(fieldXpath));
+        for (WebElement element : elements) {
             users.add(element.getText());
         }
         return users;
@@ -103,16 +106,16 @@ public class Main extends Page{
         try {
             List<WebElement> refTmp = findElements(
                     ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]");
-            for (WebElement el: refTmp ) {
+            for (WebElement el : refTmp) {
                 el.click();
                 List<WebElement> refWebEl = findElements(referencexPath);
-                for (WebElement el1: refWebEl) {
+                for (WebElement el1 : refWebEl) {
                     references.add(el1.getText());
                 }
             }
-        }catch (Throwable t){
+        } catch (Throwable t) {
             List<WebElement> refWebEl = findElements(referencexPath);
-            for (WebElement element: refWebEl) {
+            for (WebElement element : refWebEl) {
                 references.add(element.getText());
             }
         }
@@ -134,7 +137,7 @@ public class Main extends Page{
             for (WebElement element : elements) {
                 usersTmp.add(element.getText());
             }
-            WebElement lastElement = elements.get(elements.size()-1);
+            WebElement lastElement = elements.get(elements.size() - 1);
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastElement);
 
             lastElement.click();
@@ -150,10 +153,11 @@ public class Main extends Page{
         return roles;
     }
 
-    public List getUsers(){
-        openUsersScreen();
+    public List getUsers() {
+        if (!isCurrentScreen("tab_sec$User.browse")) {
+            openUsersScreen();
+        }
         List users = getRowsFromLongTable("3");
-//        btnClick(".//div[contains(text(), 'Пользователи')]/following-sibling::span");
         return users;
     }
 
@@ -175,7 +179,7 @@ public class Main extends Page{
 
     public Main checkUser(String role) {
         List<String> users = getUsers();
-        if (! users.contains(role)) {
+        if (!users.contains(role)) {
             NewUser newUser = new NewUser(driver);
             newUser.createUser(role);
         }
@@ -186,7 +190,7 @@ public class Main extends Page{
         try {
             btnClick(referenceBTN);
             typicalResolutions.isDisplayed();
-        }catch (org.openqa.selenium.NoSuchElementException ex) {
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
             btnClick(referenceBTN);
         }
         btnClick(typicalResolutions);
@@ -197,11 +201,44 @@ public class Main extends Page{
     public Main checkUsers(List<String> roles) {
         NewUser newUser = new NewUser(driver);
         List<String> users = getUsers();
-        for (String role: roles) {
-            if (! users.contains(role)) {
+        for (String role : roles) {
+            if (!users.contains(role)) {
                 newUser.createUser(role);
             }
         }
         return this;
+    }
+
+    public Main deleteUser(String userName) {
+        if (!isCurrentScreen("tab_sec$User.browse")) {
+            openUsersScreen();
+        }
+        int stringsCount = -1;
+        showAllRowsStrings();
+        String fieldXpath = ".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[3]";
+        LinkedHashSet<String> usersTmp = new LinkedHashSet<>();
+        while (stringsCount < usersTmp.size()) {
+            stringsCount = usersTmp.size();
+            wait("divs",fieldXpath);
+            sleep(1);
+            List<WebElement> elements = findElements(fieldXpath);
+            for (WebElement element : elements) {
+                usersTmp.add(element.getText());
+                if (element.getText().equals(userName)) {
+                    element.click();
+                    btnClick(".//div[@cuba-id=\"userTableRemoveBtn\"]");
+                    btnClick(".//div[@cuba-id=\"optionDialog_ok\"]");
+                    return this;
+                }
+            }
+            WebElement lastElement = elements.get(elements.size() - 1);
+            scrollTo(lastElement);
+            lastElement.click();
+        }
+        return this;
+    }
+
+    public void altL() {
+        driver.switchTo().activeElement().sendKeys(Keys.chord(Keys.ALT, Keys.getKeyFromUnicode('\u004C')));
     }
 }

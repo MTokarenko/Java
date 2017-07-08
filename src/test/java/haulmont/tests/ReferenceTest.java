@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static utils.Utils.sleep;
+
 /**
  * Created by Mikhail on 30.06.2017.
  */
@@ -63,13 +65,17 @@ public class ReferenceTest extends TestBase {
             app.getMainPage()
                     .relogin(role, "123");
             List<String> currentRefs = app.getMainPage().getReferences();
-            if (! role.equals("SimpleUser")) {
+            if (!role.equals("SimpleUser")) {
                 Assert.assertTrue(currentRefs.containsAll(references));
-            }
-            else {
+            } else {
                 Assert.assertFalse(currentRefs.containsAll(references));
             }
         }
     }
 
+    @Test
+    public void testEmployeeAfterUserCreation() {
+        app.getNewUser().createUser("AppIntegrationRole");
+        app.getMainPage().deleteUser("AppIntegrationRole");
+    }
 }

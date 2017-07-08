@@ -42,6 +42,7 @@ public class NewUser extends Page {
     @FindBy(xpath = ".//div[@cuba-id=\"rolesTableAddBtn\"]")
     protected WebElement rolesBtn;
 
+
     TreeSet<String> rejectedGroups = new TreeSet<String>(Arrays.asList("Administrators", "Archive access",
             "Archivist", "Department Chief", "doc_publisher", "meetingdoc_ceator", "PortalIntegrationRole",
             "schedule_task_creator", "SubdivisionChief", "UserSubstitutionEditor", "AppIntegrationRole",
@@ -70,17 +71,21 @@ public class NewUser extends Page {
         }
     }
 
-    public void createUser(String roleName) {
-            createNewUserBtn();
-            usersMainInfoFilling("QA_test@haulmont.com", roleName);
-            btnClick(".//div[@cuba-id=\"windowCommit\"]");
-            btnClick(".//div[@cuba-id=\"optionDialog_yes\"]");
-            wait("div", ".//div[@cuba-id=\"user\"]");
-            btnClick(".//div[@cuba-id=\"windowCommit\"]");
-//        }
+    public NewUser createUser(String roleName) {
+        if (!isCurrentScreen("tab_sec$User.browse")) {
+            Main mainPage = new Main(driver);
+            mainPage.openUsersScreen();
+        }
+        createNewUserBtn();
+        usersMainInfoFilling("QA_test@haulmont.com", roleName);
+        btnClick(".//div[@cuba-id=\"windowCommit\"]");
+        btnClick(".//div[@cuba-id=\"optionDialog_yes\"]");
+        wait("div", ".//div[@cuba-id=\"user\"]");
+        btnClick(".//div[@cuba-id=\"windowCommit\"]");
+        return this;
     }
 
-    private void chooseGroup(final String groupName) {
+    private void chooseGroup(String groupName) {
         groupBtn.click();
         btnClick(".//span[contains(text(), '" + groupName + "')]");
         sleep(1); //!!!!!!!!!
@@ -107,5 +112,6 @@ public class NewUser extends Page {
         btnClick(roleXpath);
         btnClick(".//div[@cuba-id=\"selectButton\"]");
     }
+
 }
 
