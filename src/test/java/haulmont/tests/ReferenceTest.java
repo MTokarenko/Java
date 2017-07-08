@@ -79,4 +79,10 @@ public class ReferenceTest extends TestBase {
         app.getMainPage().deleteUser("AppIntegrationRole");
     }
 
+    @Test
+    public void testHotKeys() {
+        app.getMainPage().altL();
+        app.getMainPage().altM();
+    }
+
 }

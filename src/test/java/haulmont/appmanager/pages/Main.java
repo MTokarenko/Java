@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import tokarenko.AbstractPage;
 
 import java.util.*;
@@ -247,6 +248,12 @@ public class Main extends Page {
 
     public void altL() {
         driver.switchTo().activeElement().sendKeys(Keys.chord(Keys.ALT, Keys.getKeyFromUnicode('\u004C')));
+        Assert.assertTrue(isCurrentScreen("tab_df$Employee.browse"));
     }
 
+    public Main altM() {
+        driver.switchTo().activeElement().sendKeys(Keys.chord(Keys.ALT, Keys.getKeyFromUnicode('\u004D')));
+        Assert.assertTrue(isCurrentScreen("tab_df$Company.browse"));
+        return this;
+    }
 }
