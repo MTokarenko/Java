@@ -59,4 +59,5 @@ public class ApplicationManager {
     public TypicalResolution getTypicalResolution() {
         return typicalResolution;
     }
+
 }

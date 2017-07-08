@@ -42,7 +42,6 @@ public class NewUser extends Page {
     @FindBy(xpath = ".//div[@cuba-id=\"rolesTableAddBtn\"]")
     protected WebElement rolesBtn;
 
-
     TreeSet<String> rejectedGroups = new TreeSet<String>(Arrays.asList("Administrators", "Archive access",
             "Archivist", "Department Chief", "doc_publisher", "meetingdoc_ceator", "PortalIntegrationRole",
             "schedule_task_creator", "SubdivisionChief", "UserSubstitutionEditor", "AppIntegrationRole",

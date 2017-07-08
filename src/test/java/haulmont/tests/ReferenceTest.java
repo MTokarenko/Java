@@ -78,4 +78,5 @@ public class ReferenceTest extends TestBase {
         app.getNewUser().createUser("AppIntegrationRole");
         app.getMainPage().deleteUser("AppIntegrationRole");
     }
+
 }

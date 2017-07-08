@@ -23,7 +23,6 @@ public class Login extends Page{
     public Login(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-//        wait("button", enterButton);
     }
 
     public void login(String login, String pass) {

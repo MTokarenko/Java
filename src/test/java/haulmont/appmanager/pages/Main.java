@@ -248,4 +248,5 @@ public class Main extends Page {
     public void altL() {
         driver.switchTo().activeElement().sendKeys(Keys.chord(Keys.ALT, Keys.getKeyFromUnicode('\u004C')));
     }
+
 }

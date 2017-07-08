@@ -21,5 +21,4 @@ public class TypicalResolution extends Page {
         PageFactory.initElements(driver, this);
     }
 
-
 }
