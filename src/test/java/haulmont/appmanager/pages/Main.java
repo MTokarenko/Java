@@ -166,13 +166,20 @@ public class Main extends Page {
     }
 
     public Main relogin(String login, String pass) {
-
-        Login loginPage = new Login(driver);
-        logout();
-        if (login.equals("admin")) {
-            pass = "admin";
+        String currentUser;
+        try {
+            currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"substitutedUserSelect\"]/input")).getAttribute("value");
+        } catch (org.openqa.selenium.NoSuchElementException ex) {
+            currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
         }
-        loginPage.login(login, pass);
+        if  (! login.equals(currentUser)) {
+            Login loginPage = new Login(driver);
+            logout();
+            if (login.equals("admin")) {
+                pass = "admin";
+            }
+            loginPage.login(login, pass);
+        }
         return this;
     }
 
