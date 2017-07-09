@@ -7,19 +7,21 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-
+/**
+ * Created by Mikhail on 01.07.2017.
+ */
 public class AbstractPage {
 
-    private WebDriver driver;
     protected WebDriverWait waiting;
+    protected WebDriver driver;
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
-        this.waiting = new WebDriverWait(this.driver, 15);
+        this.waiting = new WebDriverWait(driver, 15);
     }
 
     public WebDriver getDriver() {
-        return this.driver;
+        return driver;
     }
 
     public AbstractPage btnClick(WebElement el) {
@@ -28,36 +30,46 @@ public class AbstractPage {
         return this;
     }
 
-    protected AbstractPage btnClick(String xpath) {
+    public AbstractPage btnClick(String xpath) {
         wait("button", xpath);
         driver.findElement(By.xpath(xpath)).click();
         return this;
     }
 
-    protected AbstractPage fieldInsert(WebElement elem, String value) {
+    public AbstractPage fieldInsert(WebElement elem, String value) {
         wait("div", elem);
-        elem.click();
-        elem.clear();
-        elem.sendKeys(value);
+        if (value != null) {
+            String existingText = elem.getAttribute("value");
+            if (! value.equals(existingText)) {
+                elem.click();
+                elem.clear();
+                elem.sendKeys(value);
+            }
+        }
         return this;
     }
 
     public AbstractPage fieldInsert(String xpath, String value) {
         WebElement elem =  waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
-        elem.click();
-        elem.clear();
-        elem.sendKeys(value);
+        if (value != null) {
+            String existingText = elem.getAttribute("value");
+            if (! value.equals(existingText)) {
+                elem.click();
+                elem.clear();
+                elem.sendKeys(value);
+            }
+        }
         return this;
     }
 
-    protected void wait(String type, WebElement el) {
+    public void wait(String type, WebElement el) {
         if (type == "button")
             waiting.until(ExpectedConditions.elementToBeClickable(el));
         else if (type == "div")
             waiting.until(ExpectedConditions.visibilityOf(el));
     }
 
-    protected void wait(String type, String xpath) {
+    public void wait(String type, String xpath) {
         if (type == "button")
             waiting.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
         else if (type == "div")
@@ -66,21 +78,32 @@ public class AbstractPage {
             waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
     }
 
-    protected AbstractPage scrollTo(WebElement el) {
-        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", el);
+    public AbstractPage scrollTo(WebElement el) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", el);
         return this;
     }
 
-    protected WebElement findElement(String xPath) {
-        return getDriver().findElement(By.xpath(xPath));
+    public WebElement findElement(String xPath) {
+        return driver.findElement(By.xpath(xPath));
     }
 
-    protected List <WebElement> findElements(String xPath) {
-        return getDriver().findElements(By.xpath(xPath));
+    public List<WebElement> findElements(String xPath) {
+        return driver.findElements(By.xpath(xPath));
     }
 
-    protected void ctrlF5() {
+    public void ctrlF5() {
         Actions action = new Actions(driver);
         action.keyDown(Keys.CONTROL).sendKeys(Keys.F5).perform();
     }
+
+    public boolean isCurrentScreen(String screenCubaId) {
+        try{
+            findElement(String.format(".//td[@cuba-id=\"%s\"][@aria-selected=\"true\"]", screenCubaId));
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException t) {
+            return false;
+        }
+    }
+
 }
+

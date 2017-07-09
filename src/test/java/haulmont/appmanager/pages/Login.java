@@ -9,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 import static tokarenko.haulmont.tezis.data.Data.TEZIS_BTN;
 
 
-public class Login extends Page{
+public class Login extends Main {
 
     @FindBy(xpath = "//input[@cuba-id='loginField']")
     protected WebElement userName;

@@ -1,22 +1,15 @@
 package tokarenko.haulmont.tezis.app;
 
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-
 import tokarenko.haulmont.tezis.pages.LoginPage;
 import tokarenko.haulmont.tezis.pages.MainPage;
 import tokarenko.haulmont.tezis.pages.NewUserScreen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
-
-import static tokarenko.haulmont.tezis.data.Data.*;
-import static utils.Utils.*;
+import static tokarenko.haulmont.tezis.data.Data.EMAIL;
+import static tokarenko.haulmont.tezis.data.Data.URL;
 
 public class UsersAndRolesCreation {
     public static void main(String[] args) {
@@ -39,4 +32,5 @@ public class UsersAndRolesCreation {
             driver.quit();
         }
     }
+
 }

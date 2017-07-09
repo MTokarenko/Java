@@ -45,7 +45,7 @@ public class HomePage extends AbstractPage {
                 el = findElement("(.//span[@class = '_7k49n']/*[contains(text(), 'Подписаться')])[1]");
                 scrollTo(el);
                 WebElement element = findElement("(.//a[@class=\"_4zhc5 notranslate _j7lfh\"])[1]");
-                if (! myFollowers.contains(element.getText()))
+                if (!myFollowers.contains(element.getText()))
                     el.click();
                 sleep(3);
                 if (el.getText().equals("Подписаться")) {
@@ -54,13 +54,13 @@ public class HomePage extends AbstractPage {
                     getDriver().quit();
                     System.out.println("Было нажато: " + clicks);
                 }
-                clicks +=1;
+                clicks += 1;
                 sleep(7);
             } catch (org.openqa.selenium.NoSuchElementException ex) {
                 count = listLength;
                 List<WebElement> rowsFollowers = findElements(".//span[@class = '_7k49n']/button");
                 listLength = rowsFollowers.size();
-                WebElement lastElement = rowsFollowers.get(rowsFollowers.size()-1);
+                WebElement lastElement = rowsFollowers.get(rowsFollowers.size() - 1);
                 scrollTo(lastElement);
                 sleep(1);
             }
@@ -97,4 +97,6 @@ public class HomePage extends AbstractPage {
         }
         return new ArrayList<>(followers);
     }
+
+
 }

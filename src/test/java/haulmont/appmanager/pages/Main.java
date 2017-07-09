@@ -2,11 +2,11 @@ package haulmont.appmanager.pages;
 
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import tokarenko.AbstractPage;
 
 import java.util.*;
 
@@ -40,7 +40,9 @@ public class Main extends Page {
     @FindBy(xpath = ".//span[@cuba-id=\"df$TypicalResolution.browse\"]")
     protected WebElement typicalResolutions;
 
-//    private Login loginPage = new Login(driver);
+    @FindBy(xpath = ".//div[@cuba-id=\"create\"]")
+    protected WebElement createBtn;
+
 
     public Main(WebDriver driver) {
         super(driver);
@@ -173,7 +175,8 @@ public class Main extends Page {
         } catch (org.openqa.selenium.NoSuchElementException ex) {
             currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
         }
-        if  (! login.equals(currentUser)) {
+        currentUser = currentUser.split(" ")[0];
+        if  (! currentUser.equals("Administrator")) {
             Login loginPage = new Login(driver);
             logout();
             if (login.equals("admin")) {
@@ -247,13 +250,14 @@ public class Main extends Page {
     }
 
     public void altL() {
-        driver.switchTo().activeElement().sendKeys(Keys.chord(Keys.ALT, Keys.getKeyFromUnicode('\u004C')));
+        new Actions(driver).keyDown(Keys.ALT).sendKeys(Keys.chord("L")).perform();
+        wait("div", ".//td[@cuba-id=\"tab_df$Employee.browse\"]");
         Assert.assertTrue(isCurrentScreen("tab_df$Employee.browse"));
     }
 
-    public Main altM() {
-        driver.switchTo().activeElement().sendKeys(Keys.chord(Keys.ALT, Keys.getKeyFromUnicode('\u004D')));
+    public void altM() {
+        new Actions(driver).keyDown(Keys.ALT).sendKeys(Keys.chord("M")).perform();
+        wait("div", ".//td[@cuba-id=\"tab_df$Company.browse\"]");
         Assert.assertTrue(isCurrentScreen("tab_df$Company.browse"));
-        return this;
     }
 }

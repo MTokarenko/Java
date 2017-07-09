@@ -1,6 +1,8 @@
-package haulmont.appmanager.pages;
+package haulmont.appmanager.pages.references;
 
 
+import haulmont.appmanager.pages.Main;
+import haulmont.appmanager.pages.Page;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,10 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Substitutions extends Page {
+public class Substitutions extends Main {
 
-    @FindBy(xpath = "//div[@cuba-id=\"create\"]")
-    private WebElement createBtn;
+
 
     @FindBy(xpath = ".//div[@cuba-id=\"user\"]/input")
     private WebElement userField;
@@ -28,7 +29,6 @@ public class Substitutions extends Page {
     @FindBy(xpath = ".//div[@cuba-id=\"WebLookupPickerField_ds\"]/input")
     private WebElement filterLookupPickerField;
 
-    private Main mainPage = new Main(driver);
 
     public Substitutions(WebDriver driver) {
         super(driver);
@@ -41,7 +41,7 @@ public class Substitutions extends Page {
         filterLookupPickerField.sendKeys(Keys.ARROW_DOWN);
         filterLookupPickerField.sendKeys(Keys.ENTER);
         btnClick(".//div[@cuba-id=\"search\"]");
-        List<String> subs = mainPage.getRowsFromLongTable("3");
+        List<String> subs = getRowsFromLongTable("3");
         return  subs;
     }
 
@@ -65,8 +65,8 @@ public class Substitutions extends Page {
     }
 
     private List<String> getUsersForSubs() {
-        List<String> roles = mainPage.getRoles();
-        List<String> users = mainPage.getUsers();
+        List<String> roles = getRoles();
+        List<String> users = getUsers();
         List<String> usersForSubs = new ArrayList<String>();
         for(String user: users) {
             if(roles.contains(user)) {

@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 import static utils.Utils.sleep;
 
-public class NewUser extends Page {
+public class NewUser extends Main {
 
     @FindBy(xpath = ".//input[@cuba-id=\"login\"]")
     protected WebElement login;
@@ -54,9 +54,8 @@ public class NewUser extends Page {
     }
 
     public void createUsers(String email) {
-        Main mainPage = new Main(driver);
-        List<String> currentUsers = mainPage.getRowsFromLongTable("3");
-        List<String> roles = mainPage.getRoles();
+        List<String> currentUsers = getRowsFromLongTable("3");
+        List<String> roles = getRoles();
         roles.removeAll(rejectedGroups);
         for (String roleText : roles) {
             if (!currentUsers.contains(roleText)) {
@@ -72,8 +71,7 @@ public class NewUser extends Page {
 
     public NewUser createUser(String roleName) {
         if (!isCurrentScreen("tab_sec$User.browse")) {
-            Main mainPage = new Main(driver);
-            mainPage.openUsersScreen();
+            openUsersScreen();
         }
         createNewUserBtn();
         usersMainInfoFilling("QA_test@haulmont.com", roleName);
