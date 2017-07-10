@@ -7,6 +7,7 @@ import haulmont.appmanager.pages.references.TypicalResolution;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 
 import static tokarenko.haulmont.tezis.data.Data.URL;
@@ -16,7 +17,8 @@ import static tokarenko.haulmont.tezis.data.Data.URL;
  */
 public class ApplicationManager {
 
-    public WebDriver driver;
+    private WebDriver driver;
+    private String browser;
 
     private Login login;
     private Main mainPage;
@@ -25,10 +27,23 @@ public class ApplicationManager {
     private TypicalResolution typicalResolution;
     private Employees employees;
 
+    public ApplicationManager(String browser) {
+        this.browser = browser;
+    }
+
     public void init() {
-//        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
-        System.setProperty("webdriver.gecko.driver", "src\\main\\resources\\drivers\\geckodriver.exe");
-        driver = new FirefoxDriver();
+        if (browser.equals(BrowserType.FIREFOX)) {
+            System.setProperty("webdriver.gecko.driver", "src\\main\\resources\\drivers\\geckodriver.exe");
+            driver = new FirefoxDriver();
+        }
+        else if (browser.equals(BrowserType.CHROME)) {
+            System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\drivers\\chromedriver.exe");
+            driver = new ChromeDriver();
+        }
+        else if (browser.equals(BrowserType.IE)) {
+            System.setProperty("webdriver.ie.driver", "src\\main\\resources\\drivers\\IEDriverServer.exe");
+            driver = new InternetExplorerDriver();
+        }
         driver.get(URL);
         driver.manage().window().maximize();
 

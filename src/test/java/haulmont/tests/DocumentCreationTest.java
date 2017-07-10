@@ -21,9 +21,9 @@ public class DocumentCreationTest extends TestBase {
     @Test
     public void testCreationSimpleDoc() {
         try {
-            Doc doc = new Doc(app.driver);
-            doc.createDocument("Письмо");
-            doc.fillInputs();
+//            Doc doc = new Doc(app.driver);
+//            doc.createDocument("Письмо");
+//            doc.fillInputs();
             sleep(2);
         } catch (Throwable t) {
             t.printStackTrace();
