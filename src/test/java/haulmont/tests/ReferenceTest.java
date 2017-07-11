@@ -90,8 +90,11 @@ public class ReferenceTest extends TestBase {
     public void testFiltersInReferences() {
         List<String> references = Arrays.asList("Группы пользователей", "Наши организации", "Сотрудники",
                 "Должности", "Контрагенты", "Банки и валюты");
-        app.getMainPage().openReference("Банки");
-        sleep(3);
+        app.getMainPage()
+                .openReference("Банки")
+                .wait("div", app.getMainPage().createBtn);
+
+        System.out.println(app.getMainPage().filter.getText());
     }
 
 }

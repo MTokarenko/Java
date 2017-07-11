@@ -41,7 +41,10 @@ public class Main extends Page {
     protected WebElement typicalResolutions;
 
     @FindBy(xpath = ".//div[@cuba-id=\"create\"]")
-    protected WebElement createBtn;
+    public WebElement createBtn;
+
+    @FindBy(xpath = ".//div[@cuba-id=\"modeAction\"]")
+    public WebElement filter;
 
 
     public Main(WebDriver driver) {
@@ -80,7 +83,7 @@ public class Main extends Page {
         return this;
     }
 
-    public void showAllRowsStrings() {
+    public void showAllRowsInTable() {
         wait("div", ".//div[@cuba-id=\"tableSettings\"]");
         sleep(1);
         driver.findElement(By.xpath(".//div[@cuba-id=\"tableSettings\"]")).click();
@@ -126,7 +129,7 @@ public class Main extends Page {
         return new ArrayList<>(references);
     }
 
-    private void findAndClickToElementFromList(String elementName, String listXPath) {
+    private void findAndClickToElementFromMainMenu (String elementName, String listXPath) {
         List<WebElement> mainReferences = findElements(listXPath);
         for (WebElement reference : mainReferences) {
             if (elementName.equals(reference.getText())) {
@@ -136,7 +139,7 @@ public class Main extends Page {
         }
     }
 
-    public void openReference(String referenceName) {
+    public Main openReference(String referenceName) {
         String referencexPath = ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-menuitem-caption\"]";
         Set<String> references = new HashSet<>();
         btnClick(referenceBTN);
@@ -144,7 +147,7 @@ public class Main extends Page {
         for (WebElement reference : findElements(referencexPath)) {
             if (referenceName.equals(reference.getText())) {
                 reference.click();
-                return;
+                return this;
             }
         }
         for (WebElement submenu: findElements(
@@ -153,34 +156,17 @@ public class Main extends Page {
             for (WebElement reference : findElements(referencexPath)) {
                 if (referenceName.equals(reference.getText())) {
                     reference.click();
-                    return;
+                    return this;
                 }
             }
         }
+        return this;
 
-
-        try {
-            List<WebElement> refTmp = findElements(
-                    ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]");
-            for (WebElement el : refTmp) {
-                el.click();
-                List<WebElement> refWebEl = findElements(referencexPath);
-                for (WebElement el1 : refWebEl) {
-                    references.add(el1.getText());
-                }
-            }
-        } catch (Throwable t) {
-            List<WebElement> refWebEl = findElements(referencexPath);
-            for (WebElement element : refWebEl) {
-                references.add(element.getText());
-            }
-        }
-        btnClick(referenceBTN);
     }
 
     public List<String> getRowsFromLongTable(String columnNumber) {
         int stringsCount = -1;
-        showAllRowsStrings();
+        showAllRowsInTable();
         String fieldXpath = String.format
                 (".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[%s]", columnNumber);
         LinkedHashSet<String> usersTmp = new LinkedHashSet<>();
@@ -280,7 +266,7 @@ public class Main extends Page {
             openUsersScreen();
         }
         int stringsCount = -1;
-        showAllRowsStrings();
+        showAllRowsInTable();
         String fieldXpath = ".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[3]";
         LinkedHashSet<String> usersTmp = new LinkedHashSet<>();
         while (stringsCount < usersTmp.size()) {
