@@ -85,4 +85,13 @@ public class ReferenceTest extends TestBase {
         app.getMainPage().altM();
     }
 
+
+    @Test
+    public void testFiltersInReferences() {
+        List<String> references = Arrays.asList("Группы пользователей", "Наши организации", "Сотрудники",
+                "Должности", "Контрагенты", "Банки и валюты");
+        app.getMainPage().openReference("Банки");
+        sleep(3);
+    }
+
 }

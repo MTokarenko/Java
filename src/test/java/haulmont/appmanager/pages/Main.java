@@ -126,6 +126,58 @@ public class Main extends Page {
         return new ArrayList<>(references);
     }
 
+    private void findAndClickToElementFromList(String elementName, String listXPath) {
+        List<WebElement> mainReferences = findElements(listXPath);
+        for (WebElement reference : mainReferences) {
+            if (elementName.equals(reference.getText())) {
+                reference.click();
+                return;
+            }
+        }
+    }
+
+    public void openReference(String referenceName) {
+        String referencexPath = ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-menuitem-caption\"]";
+        Set<String> references = new HashSet<>();
+        btnClick(referenceBTN);
+        wait("divs", referencexPath);
+        for (WebElement reference : findElements(referencexPath)) {
+            if (referenceName.equals(reference.getText())) {
+                reference.click();
+                return;
+            }
+        }
+        for (WebElement submenu: findElements(
+                ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]")) {
+            submenu.click();
+            for (WebElement reference : findElements(referencexPath)) {
+                if (referenceName.equals(reference.getText())) {
+                    reference.click();
+                    return;
+                }
+            }
+        }
+
+
+        try {
+            List<WebElement> refTmp = findElements(
+                    ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]");
+            for (WebElement el : refTmp) {
+                el.click();
+                List<WebElement> refWebEl = findElements(referencexPath);
+                for (WebElement el1 : refWebEl) {
+                    references.add(el1.getText());
+                }
+            }
+        } catch (Throwable t) {
+            List<WebElement> refWebEl = findElements(referencexPath);
+            for (WebElement element : refWebEl) {
+                references.add(element.getText());
+            }
+        }
+        btnClick(referenceBTN);
+    }
+
     public List<String> getRowsFromLongTable(String columnNumber) {
         int stringsCount = -1;
         showAllRowsStrings();
@@ -176,7 +228,10 @@ public class Main extends Page {
             currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
         }
         currentUser = currentUser.split(" ")[0];
-        if  (! currentUser.equals("Administrator")) {
+        if (currentUser.equals("Administrator")) {
+            currentUser = "admin";
+        }
+        if  (! currentUser.equals(login)) {
             Login loginPage = new Login(driver);
             logout();
             if (login.equals("admin")) {
