@@ -93,8 +93,9 @@ public class ReferenceTest extends TestBase {
         app.getMainPage()
                 .openReference("Банки")
                 .wait("div", app.getMainPage().createBtn);
-
+        app.getMainPage().checkAdvancedFilter();
         System.out.println(app.getMainPage().filter.getText());
+        sleep(2);
     }
 
 }

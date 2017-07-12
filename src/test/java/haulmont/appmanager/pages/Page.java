@@ -59,20 +59,22 @@ public class Page {
         return this;
     }
 
-    public void wait(String type, WebElement el) {
+    public Class<Main> wait(String type, WebElement el) {
         if (type == "button")
             waiting.until(ExpectedConditions.elementToBeClickable(el));
         else if (type == "div")
             waiting.until(ExpectedConditions.visibilityOf(el));
+        return Main.class;
     }
 
-    public void wait(String type, String xpath) {
-        if (type == "button")
+    public Page wait(String type, String xpath) {
+        if (type.equals("button"))
             waiting.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
-        else if (type == "div")
+        else if (type.equals("div"))
             waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
-        else if (type == "divs")
+        else if (type.equals("divs"))
             waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
+        return this;
     }
 
     public Page scrollTo(WebElement el) {

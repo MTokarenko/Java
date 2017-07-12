@@ -2,6 +2,7 @@ package haulmont.appmanager.pages;
 
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -130,8 +131,7 @@ public class Main extends Page {
     }
 
     private void findAndClickToElementFromMainMenu (String elementName, String listXPath) {
-        List<WebElement> mainReferences = findElements(listXPath);
-        for (WebElement reference : mainReferences) {
+        for (WebElement reference : findElements(listXPath)) {
             if (elementName.equals(reference.getText())) {
                 reference.click();
                 return;
@@ -144,21 +144,11 @@ public class Main extends Page {
         Set<String> references = new HashSet<>();
         btnClick(referenceBTN);
         wait("divs", referencexPath);
-        for (WebElement reference : findElements(referencexPath)) {
-            if (referenceName.equals(reference.getText())) {
-                reference.click();
-                return this;
-            }
-        }
+        findAndClickToElementFromMainMenu(referenceName, referencexPath);
         for (WebElement submenu: findElements(
                 ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]")) {
             submenu.click();
-            for (WebElement reference : findElements(referencexPath)) {
-                if (referenceName.equals(reference.getText())) {
-                    reference.click();
-                    return this;
-                }
-            }
+            findAndClickToElementFromMainMenu(referenceName, referencexPath);
         }
         return this;
 
@@ -301,4 +291,14 @@ public class Main extends Page {
         wait("div", ".//td[@cuba-id=\"tab_df$Company.browse\"]");
         Assert.assertTrue(isCurrentScreen("tab_df$Company.browse"));
     }
+
+    public Main checkAdvancedFilter() {
+        try {
+            WebElement condition = findElement(".//inpt[@class=\"v-filterselect-input\"]");
+        } catch (NoSuchElementException exception) {
+            filter.click();
+        }
+        return this;
+    }
+
 }
