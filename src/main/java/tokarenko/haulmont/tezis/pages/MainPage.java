@@ -2,13 +2,14 @@ package tokarenko.haulmont.tezis.pages;
 
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.NoSuchElementException;
 import tokarenko.AbstractPage;
+
 
 import java.util.*;
 
@@ -38,6 +39,9 @@ public class MainPage extends AbstractPage {
     @FindBy(xpath = "//div[@cuba-id=\"logoutButton\"]")
     protected WebElement logoutBtn;
 
+    @FindBy(xpath = ".//div[@class=\"v-slot v-slot-cuba-paging-status\"]")
+    protected WebElement rowsCount;
+
     public MainPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -48,10 +52,15 @@ public class MainPage extends AbstractPage {
         try {
             btnClick(administrationBTN);
             usersBtn.isDisplayed();
-        }catch (org.openqa.selenium.NoSuchElementException ex) {
+        }catch (NoSuchElementException ex) {
             btnClick(administrationBTN);
         }
         btnClick(usersBtn);
+        wait("div", rowsCount);
+        if ("0 строк".equals(rowsCount.getText())) {
+            wait("divs", ".//table[@class=\"v-table-table\"]//tr");
+        }
+        sleep(2); // Исправить! добавить ожидание подгрузки таблицы.
         return this;
     }
 
@@ -113,22 +122,27 @@ public class MainPage extends AbstractPage {
     }
 
     public List<String> getRowsFromLongTable(String columnNumber) {
+        if (rowsCount.getText().equals("0 строк")) {
+            List<String> users = new ArrayList<>();
+            return users;
+        }
         int stringsCount = -1;
         showAllRowsStrings();
         String fieldXpath = String.format
                 (".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[%s]", columnNumber);
         LinkedHashSet<String> usersTmp = new LinkedHashSet<>();
         while (stringsCount < usersTmp.size()) {
+
             stringsCount = usersTmp.size();
-            waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(fieldXpath)));
+            wait("divs", fieldXpath);
+            wait("div", rowsCount);
             sleep(1);
-            List<WebElement> elements = getDriver().findElements(By.xpath(fieldXpath));
+            List<WebElement> elements = driver.findElements(By.xpath(fieldXpath));
             for (WebElement element : elements) {
                 usersTmp.add(element.getText());
             }
             WebElement lastElement = elements.get(elements.size()-1);
-            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView(true);", lastElement);
-
+            scrollTo(lastElement);
             lastElement.click();
         }
         List<String> users = new ArrayList<>(usersTmp);
