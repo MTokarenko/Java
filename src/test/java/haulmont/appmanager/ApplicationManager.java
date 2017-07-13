@@ -17,7 +17,7 @@ import static tokarenko.haulmont.tezis.data.Data.URL;
  */
 public class ApplicationManager {
 
-    private WebDriver driver;
+    public WebDriver driver;
     private String browser;
 
     private Login login;

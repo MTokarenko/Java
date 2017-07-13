@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Mikhail on 01.07.2017.
@@ -60,9 +61,9 @@ public class Page {
     }
 
     public Class<Main> wait(String type, WebElement el) {
-        if (type == "button")
+        if (Objects.equals(type, "button"))
             waiting.until(ExpectedConditions.elementToBeClickable(el));
-        else if (type == "div")
+        else if (Objects.equals(type, "div"))
             waiting.until(ExpectedConditions.visibilityOf(el));
         return Main.class;
     }

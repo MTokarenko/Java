@@ -1,13 +1,15 @@
 package haulmont.tests;
 
 
+import com.haulmont.masquerade.components.Button;
+import haulmont.appmanager.pages.DemoLoginWindow;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static utils.Utils.sleep;
+import static com.haulmont.masquerade.Components._$;
 
 /**
  * Created by Mikhail on 30.06.2017.
@@ -31,6 +33,13 @@ public class ReferenceTest extends TestBase {
 
     @Test
     public void testTypicalResolutionCreation() {
+        Button button = _$(Button.class, "loginBtn");
+        button.click();
+
+        DemoLoginWindow demoLoginWindow = _$(DemoLoginWindow.class);
+
+        demoLoginWindow = _$(DemoLoginWindow.class);
+
         List<String> roles = Arrays.asList("admin", "doc_approver", "ReferenceEditor");
         app.getMainPage().checkUsers(roles);
         for (String role : roles) {
@@ -91,11 +100,17 @@ public class ReferenceTest extends TestBase {
         List<String> references = Arrays.asList("Группы пользователей", "Наши организации", "Сотрудники",
                 "Должности", "Контрагенты", "Банки и валюты");
         app.getMainPage()
-                .openReference("Банки")
+                .openReference("Наши организации")
                 .wait("div", app.getMainPage().createBtn);
         app.getMainPage().checkAdvancedFilter();
-        System.out.println(app.getMainPage().filter.getText());
-        sleep(2);
+        List<String> allFields = app.getMainPage().getAllFields();
+        for (String field: allFields) {
+            app.getMainPage().fieldInsert(app.getMainPage().filterConditionInput, field);
+            app.getMainPage().checkStringInFilter(field);
+
+        }
+
+
     }
 
 }

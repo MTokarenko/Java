@@ -1,6 +1,7 @@
 package haulmont.appmanager.pages;
 
 
+import com.google.common.collect.Lists;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
@@ -20,32 +21,40 @@ public class Main extends Page {
     @FindBy(xpath = TEZIS_BTN)
     protected WebElement tezisLogo;
 
-    @FindBy(xpath = "//span[@cuba-id=\"administration\"]")
-    protected WebElement administrationBTN;
+    @FindBy(xpath = ".//span[@cuba-id=\"administration\"]")
+    private WebElement administrationBTN;
 
-    @FindBy(xpath = "//span[@cuba-id=\"reference\"]")
-    protected WebElement referenceBTN;
+    @FindBy(xpath = ".//span[@cuba-id=\"reference\"]")
+    private WebElement referenceBTN;
 
-    @FindBy(xpath = "//span[@cuba-id=\"sec$User.browse\"]")
-    protected WebElement usersBtn;
+    @FindBy(xpath = ".//span[@cuba-id=\"sec$User.browse\"]")
+    private WebElement usersBtn;
 
-    @FindBy(xpath = "//span[@cuba-id=\"sec$Role.browse\"]")
-    protected WebElement rolesBtn;
+    @FindBy(xpath = ".//span[@cuba-id=\"sec$Role.browse\"]")
+    private WebElement rolesBtn;
 
-    @FindBy(xpath = "//span[@cuba-id=\"df$UserSubstitution.browse\"]")
-    protected WebElement substitutionsBtn;
+    @FindBy(xpath = ".//span[@cuba-id=\"df$UserSubstitution.browse\"]")
+    private WebElement substitutionsBtn;
 
-    @FindBy(xpath = "//div[@cuba-id=\"logoutButton\"]")
-    protected WebElement logoutBtn;
+    @FindBy(xpath = ".//div[@cuba-id=\"logoutButton\"]")
+    private WebElement logoutBtn;
+
+    @FindBy(xpath = ".//div[@cuba-id=\"windowCommit\"]")
+    private WebElement windowCommitBtn;
 
     @FindBy(xpath = ".//span[@cuba-id=\"df$TypicalResolution.browse\"]")
-    protected WebElement typicalResolutions;
+    private WebElement typicalResolutions;
 
     @FindBy(xpath = ".//div[@cuba-id=\"create\"]")
     public WebElement createBtn;
 
     @FindBy(xpath = ".//div[@cuba-id=\"modeAction\"]")
-    public WebElement filter;
+    private WebElement filterMode;
+
+    @FindBy(xpath = ".//input[@class=\"v-filterselect-input\"]")
+    public WebElement filterConditionInput;
+
+    private String xPathFilterValue = ".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), 'Пользователь')]";
 
 
     public Main(WebDriver driver) {
@@ -169,7 +178,7 @@ public class Main extends Page {
                 usersTmp.add(element.getText());
             }
             WebElement lastElement = elements.get(elements.size() - 1);
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastElement);
+            scrollTo(lastElement);
 
             lastElement.click();
         }
@@ -294,11 +303,27 @@ public class Main extends Page {
 
     public Main checkAdvancedFilter() {
         try {
-            WebElement condition = findElement(".//inpt[@class=\"v-filterselect-input\"]");
+            filterConditionInput.isDisplayed();
         } catch (NoSuchElementException exception) {
-            filter.click();
+            filterMode.click();
         }
         return this;
     }
 
+    public List<String> getAllFields() {
+        List<String> fields = new ArrayList<>();
+        btnClick(createBtn);
+        wait("button", windowCommitBtn);
+        for (WebElement el: findElements(".//div[@class=\"v-gridlayout-slot\"]")) {
+            if (!Lists.newArrayList("*", "").contains(el.getText()))
+                fields.add(el.getText());
+        }
+        return fields;
+    }
+
+    public Main checkStringInFilter(String field) {
+        fieldInsert(filterConditionInput, field);
+        Assert.assertTrue(findElement());
+        return null;
+    }
 }

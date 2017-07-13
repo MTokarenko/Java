@@ -22,9 +22,6 @@ public class SubstitutionScreen extends MainPage {
     @FindBy(xpath = ".//div[@cuba-id=\"userSubstitution\"]/input")
     private WebElement subsField;
 
-    @FindBy(xpath = ".//div[@cuba-id=\"search\"]/ancestor::div[3]/preceding-sibling::div//input[@class=\"v-filterselect-input\"]")
-    private WebElement filterField;
-
     @FindBy(xpath = ".//div[@cuba-id=\"WebLookupPickerField_ds\"]/input")
     private WebElement filterLookupPickerField;
 
@@ -33,7 +30,7 @@ public class SubstitutionScreen extends MainPage {
         PageFactory.initElements(driver, this);
     }
     public List getSubstitutionsForUser(String user) {
-        fieldInsert(filterField, "Пользователь");
+//       ? fieldInsert(filterConditionInput, "Пользователь");
         btnClick(".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), 'Пользователь')]");
         fieldInsert(filterLookupPickerField, user);
         filterLookupPickerField.sendKeys(Keys.ARROW_DOWN);
