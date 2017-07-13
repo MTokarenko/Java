@@ -36,7 +36,7 @@ public class Substitutions extends Main {
     }
     public List getSubstitutionsForUser(String user) {
         fieldInsert(filterField, "Пользователь");
-        btnClick(".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), 'Пользователь')]");
+        btnClick("/td[co./ntains(@class, 'gwt-MenuItem')]/span[contains(text(), 'Пользователь')]");
         fieldInsert(filterLookupPickerField, user);
         filterLookupPickerField.sendKeys(Keys.ARROW_DOWN);
         filterLookupPickerField.sendKeys(Keys.ENTER);

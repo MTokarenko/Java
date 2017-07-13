@@ -39,6 +39,9 @@ public class Main extends Page {
     @FindBy(xpath = ".//div[@cuba-id=\"logoutButton\"]")
     private WebElement logoutBtn;
 
+    @FindBy(xpath = ".//div[@cuba-id=\"windowClose\"]")
+    private WebElement windowCloseBtn;
+
     @FindBy(xpath = ".//div[@cuba-id=\"windowCommit\"]")
     private WebElement windowCommitBtn;
 
@@ -51,10 +54,11 @@ public class Main extends Page {
     @FindBy(xpath = ".//div[@cuba-id=\"modeAction\"]")
     private WebElement filterMode;
 
-    @FindBy(xpath = ".//input[@class=\"v-filterselect-input\"]")
+//    @FindBy(xpath = ".//input[@class=\"v-filterselect-input\"]")
+    @FindBy(xpath = ".//div[@cuba-id=\"search\"]/ancestor::div[3]/preceding-sibling::div//input[@class=\"v-filterselect-input\"]")
     public WebElement filterConditionInput;
 
-    private String xPathFilterValue = ".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), 'Пользователь')]";
+    private String xPathFilterValue = ".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), \"%s\")]";
 
 
     public Main(WebDriver driver) {
@@ -318,12 +322,13 @@ public class Main extends Page {
             if (!Lists.newArrayList("*", "").contains(el.getText()))
                 fields.add(el.getText());
         }
+        btnClick(windowCloseBtn);
         return fields;
     }
 
     public Main checkStringInFilter(String field) {
         fieldInsert(filterConditionInput, field);
-        Assert.assertTrue(findElement());
-        return null;
+        Assert.assertTrue(findElement(String.format(xPathFilterValue, field)).isDisplayed());
+        return this;
     }
 }
