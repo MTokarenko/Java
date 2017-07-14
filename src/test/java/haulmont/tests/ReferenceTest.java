@@ -33,14 +33,13 @@ public class ReferenceTest extends TestBase {
 
     @Test
     public void testTypicalResolutionCreation() {
-        Button button = _$(Button.class, "loginBtn");
-        button.click();
 
-        DemoLoginWindow demoLoginWindow = _$(DemoLoginWindow.class);
+//        Button button = _$(Button.class, "loginBtn");
+//        button.click();
+//        DemoLoginWindow demoLoginWindow = _$(DemoLoginWindow.class);
+//        demoLoginWindow = _$(DemoLoginWindow.class);
 
-        demoLoginWindow = _$(DemoLoginWindow.class);
-
-        List<String> roles = Arrays.asList("admin", "doc_approver", "ReferenceEditor");
+        List<String> roles = Arrays.asList("Administrator", "doc_approver", "ReferenceEditor");
         app.getMainPage().checkUsers(roles);
         for (String role : roles) {
             app.getMainPage()
@@ -67,7 +66,7 @@ public class ReferenceTest extends TestBase {
 
     @Test
     public void testReferencesVisibleForUsers() {
-        List<String> roles = Arrays.asList("admin", "UserSubstitutionEditor", "SimpleUser");
+        List<String> roles = Arrays.asList("Administrator", "UserSubstitutionEditor", "SimpleUser");
         List<String> references = Arrays.asList("Замещение пользователей");
         app.getMainPage().checkUsers(roles);
         for (String role : roles) {
@@ -97,20 +96,20 @@ public class ReferenceTest extends TestBase {
 
     @Test
     public void testFiltersInReferences() {
-        List<String> references = Arrays.asList("Группы пользователей", "Наши организации", "Сотрудники",
-                "Должности", "Контрагенты", "Банки и валюты");
-        app.getMainPage()
-                .openReference("Наши организации")
-                .wait("div", app.getMainPage().createBtn);
-        app.getMainPage().checkAdvancedFilter();
-        List<String> allFields = app.getMainPage().getAllFields();
-        for (String field: allFields) {
-            app.getMainPage().fieldInsert(app.getMainPage().filterConditionInput, field);
-            app.getMainPage().checkStringInFilter(field);
-
+        List<String> allFields;
+        List<String> references = Arrays.asList( "Наши организации", "Сотрудники",
+                "Должности", "Юридические лица", "Физические лица", "Валюты", "Банки", "Регионы банков");
+        for (String reference: references) {
+            app.getMainPage()
+                    .openReference(reference)
+                    .checkAdvancedFilter();
+            allFields = app.getMainPage().getAllFields();
+            for (String field: allFields) {
+//                app.getMainPage().fieldInsert(app.getMainPage().filterConditionInput, field);
+                app.getMainPage().checkStringInFilter(field);
+            }
+            app.getMainPage().closeCurrentTab();
         }
-
-
     }
 
 }

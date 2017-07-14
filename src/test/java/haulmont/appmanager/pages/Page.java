@@ -22,6 +22,7 @@ public class Page {
     }
 
 
+
     public Page btnClick(WebElement el) {
         wait("button", el);
         el.click();
@@ -94,15 +95,6 @@ public class Page {
     public void ctrlF5() {
         Actions action = new Actions(driver);
         action.keyDown(Keys.CONTROL).sendKeys(Keys.F5).perform();
-    }
-
-    public boolean isCurrentScreen(String screenCubaId) {
-        try{
-            findElement(String.format(".//td[@cuba-id=\"%s\"][@aria-selected=\"true\"]", screenCubaId));
-            return true;
-        } catch (org.openqa.selenium.NoSuchElementException t) {
-            return false;
-        }
     }
 
 }

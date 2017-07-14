@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeMethod;
 
 public class TestBase {
 
-    protected final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
+    protected final ApplicationManager app = new ApplicationManager(BrowserType.FIREFOX);
 
     @BeforeClass
     public void setUp() {
@@ -20,7 +20,9 @@ public class TestBase {
 
     @BeforeMethod
     public void reloginToAdmin() {
-        app.getMainPage().relogin("admin", "admin");
+        app.getMainPage()
+                .relogin("admin", "admin")
+                .closeCurrentTab();
     }
 
     @AfterClass

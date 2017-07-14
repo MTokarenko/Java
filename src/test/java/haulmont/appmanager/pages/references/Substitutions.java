@@ -29,11 +29,15 @@ public class Substitutions extends Main {
     @FindBy(xpath = ".//div[@cuba-id=\"WebLookupPickerField_ds\"]/input")
     private WebElement filterLookupPickerField;
 
+    @FindBy(xpath = ".//div[@cuba-id=\"create\"]")
+    private WebElement createBTN;
+
 
     public Substitutions(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
+
     public List getSubstitutionsForUser(String user) {
         fieldInsert(filterField, "Пользователь");
         btnClick("/td[co./ntains(@class, 'gwt-MenuItem')]/span[contains(text(), 'Пользователь')]");

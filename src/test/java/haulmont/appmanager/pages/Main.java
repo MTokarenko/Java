@@ -157,12 +157,25 @@ public class Main extends Page {
         Set<String> references = new HashSet<>();
         btnClick(referenceBTN);
         wait("divs", referencexPath);
-        findAndClickToElementFromMainMenu(referenceName, referencexPath);
+//        findAndClickToElementFromMainMenu(referenceName, referencexPath);
+        for (WebElement reference : findElements(referencexPath)) {
+            if (referenceName.equals(reference.getText())) {
+                reference.click();
+                return this;
+            }
+        }
         for (WebElement submenu: findElements(
                 ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]")) {
             submenu.click();
-            findAndClickToElementFromMainMenu(referenceName, referencexPath);
+//            findAndClickToElementFromMainMenu(referenceName, referencexPath);
+            for (WebElement reference : findElements(referencexPath)) {
+                if (referenceName.equals(reference.getText())) {
+                    reference.click();
+                    return this;
+                }
+            }
         }
+        wait("div", createBtn);
         return this;
 
     }
@@ -212,18 +225,21 @@ public class Main extends Page {
     public Main relogin(String login, String pass) {
         String currentUser;
         try {
-            currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"substitutedUserSelect\"]/input")).getAttribute("value");
+            currentUser = findElement(".//div[@cuba-id=\"substitutedUserSelect\"]/input").getAttribute("value");
         } catch (org.openqa.selenium.NoSuchElementException ex) {
-            currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
+            currentUser = findElement(".//div[@cuba-id=\"currentUserLabel\"]").getText();
         }
         currentUser = currentUser.split(" ")[0];
         if (currentUser.equals("Administrator")) {
-            currentUser = "admin";
+            if (login.equals("Administrator")) {
+                return this;
+            }
         }
         if  (! currentUser.equals(login)) {
             Login loginPage = new Login(driver);
             logout();
-            if (login.equals("admin")) {
+            if (login.equals("Administrator")) {
+                login = "admin";
                 pass = "admin";
             }
             loginPage.login(login, pass);
@@ -318,12 +334,40 @@ public class Main extends Page {
         List<String> fields = new ArrayList<>();
         btnClick(createBtn);
         wait("button", windowCommitBtn);
-        for (WebElement el: findElements(".//div[@class=\"v-gridlayout-slot\"]")) {
-            if (!Lists.newArrayList("*", "").contains(el.getText()))
-                fields.add(el.getText());
-        }
-        btnClick(windowCloseBtn);
+        for (WebElement el: findElements(".//div[@class=\"v-gridlayout-slot\"]//div[contains(@class, \"v-label v-widget\")]")) {
+//            if (el.getText().length() > 2) {
+                if (!Lists.newArrayList("*", "").contains(el.getText()))
+                    fields.add(el.getText());
+            }
+//        }
+        closeCurrentScreen();
         return fields;
+    }
+
+    public Main closeCurrentScreen() {
+        btnClick(windowCloseBtn);
+        try {
+            sleep(1);
+            findElement(".//div[@cuba-id=\"optionDialog_discard\"]").click();
+        } catch (NoSuchElementException ex) {
+
+        }
+        return this;
+    }
+
+    public Main closeCurrentTab() {
+        try {
+            findElement(".//td[@aria-selected=\"true\"]//span").click();
+        } catch (NoSuchElementException ex) {
+            return this;
+        }
+        try {
+            sleep(1);
+            findElement(".//div[@cuba-id=\"optionDialog_discard\"]").click();
+        } catch (NoSuchElementException ex) {
+
+        }
+        return this;
     }
 
     public Main checkStringInFilter(String field) {
@@ -331,4 +375,14 @@ public class Main extends Page {
         Assert.assertTrue(findElement(String.format(xPathFilterValue, field)).isDisplayed());
         return this;
     }
+
+    public boolean isCurrentScreen(String screenCubaId) {
+        try{
+            findElement(String.format(".//td[@cuba-id=\"%s\"][@aria-selected=\"true\"]", screenCubaId));
+            return true;
+        } catch (NoSuchElementException t) {
+            return false;
+        }
+    }
+
 }

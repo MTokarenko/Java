@@ -1,5 +1,6 @@
 import haulmont.appmanager.pages.Login;
 
+import haulmont.appmanager.pages.Main;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -29,19 +30,8 @@ public class Sandbox {
             Login loginPage = new Login(driver);
             loginPage.login("admin", "admin");
             Assert.assertTrue(driver.findElement(By.xpath(TEZIS_BTN)).isDisplayed(), "Nop");
-            System.out.println("OK");
-            try {
-                currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"substitutedUserSelect\"]/input"))
-                        .getAttribute("value");
-            } catch (NoSuchElementException ex) {
-                currentUser = driver.findElement(By.xpath(".//div[@cuba-id=\"currentUserLabel\"]")).getText();
-            }
-            currentUser = currentUser.split(" ")[0];
-            System.out.println(currentUser);
-            Actions action = new Actions(driver);
-            action.keyDown(Keys.CONTROL).sendKeys(Keys.F5).perform();
-            sleep(3);
-            System.out.println("done");
+            Main main = new Main(driver);
+            main.openReference("Юридические лица");
 
         } catch (Throwable t) {
             t.printStackTrace();
