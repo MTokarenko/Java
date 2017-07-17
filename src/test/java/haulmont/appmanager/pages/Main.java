@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.testng.Assert;
 
 import java.util.*;
@@ -55,7 +56,8 @@ public class Main extends Page {
     private WebElement filterMode;
 
 //    @FindBy(xpath = ".//input[@class=\"v-filterselect-input\"]")
-    @FindBy(xpath = ".//div[@cuba-id=\"search\"]/ancestor::div[3]/preceding-sibling::div//input[@class=\"v-filterselect-input\"]")
+    @FindBy(xpath = ".//div[@cuba-id=\"search\"]/ancestor::div[3]/" +
+            "preceding-sibling::div//input[@class=\"v-filterselect-input\"]")
     public WebElement filterConditionInput;
 
     private String xPathFilterValue = ".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), \"%s\")]";
@@ -100,7 +102,7 @@ public class Main extends Page {
     public void showAllRowsInTable() {
         wait("div", ".//div[@cuba-id=\"tableSettings\"]");
         sleep(1);
-        driver.findElement(By.xpath(".//div[@cuba-id=\"tableSettings\"]")).click();
+        findElement(".//div[@cuba-id=\"tableSettings\"]").click();
         btnClick(".//div[@cuba-id=\"setMaxResults_0\"]");
         waiting.until(ExpectedConditions.textToBePresentInElementLocated
                 (By.xpath(".//div[contains(@class, 'paging-status')][contains(text(), 'строк')]"), "строк"));
@@ -110,9 +112,8 @@ public class Main extends Page {
         String fieldXpath = String.format
                 (".//table[@class=\"v-table-table\"]//tr[contains(@class, 'v-table')]/td[%s]", rowNumber);
         List<String> users = new ArrayList<>();
-        waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(fieldXpath)));
-        List<WebElement> elements = driver.findElements(By.xpath(fieldXpath));
-        for (WebElement element : elements) {
+        wait("divs", fieldXpath);
+        for (WebElement element : findElements(fieldXpath)) {
             users.add(element.getText());
         }
         return users;
@@ -143,41 +144,38 @@ public class Main extends Page {
         return new ArrayList<>(references);
     }
 
-    private void findAndClickToElementFromMainMenu (String elementName, String listXPath) {
+    private boolean findAndClickToElementFromMainMenu (String elementName, String listXPath) {
         for (WebElement reference : findElements(listXPath)) {
             if (elementName.equals(reference.getText())) {
                 reference.click();
-                return;
+                wait("div", createBtn);
+                return true;
             }
         }
+        return false;
     }
 
     public Main openReference(String referenceName) {
         String referencexPath = ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-menuitem-caption\"]";
-        Set<String> references = new HashSet<>();
         btnClick(referenceBTN);
         wait("divs", referencexPath);
-//        findAndClickToElementFromMainMenu(referenceName, referencexPath);
-        for (WebElement reference : findElements(referencexPath)) {
-            if (referenceName.equals(reference.getText())) {
-                reference.click();
-                return this;
-            }
+        if (findAndClickToElementFromMainMenu(referenceName, referencexPath)) {
+            return this;
         }
         for (WebElement submenu: findElements(
                 ".//div[@class=\"popupContent\"]//span[@class=\"v-menubar-submenu-indicator\"]")) {
             submenu.click();
-//            findAndClickToElementFromMainMenu(referenceName, referencexPath);
-            for (WebElement reference : findElements(referencexPath)) {
-                if (referenceName.equals(reference.getText())) {
-                    reference.click();
-                    return this;
-                }
+            try {
+                Assert.assertTrue(submenu.isDisplayed());
+            } catch (StaleElementReferenceException ex) {
+                btnClick(referenceBTN).btnClick(submenu);
+            }
+
+            if (findAndClickToElementFromMainMenu(referenceName, referencexPath)) {
+                return this;
             }
         }
-        wait("div", createBtn);
         return this;
-
     }
 
     public List<String> getRowsFromLongTable(String columnNumber) {
@@ -188,15 +186,14 @@ public class Main extends Page {
         LinkedHashSet<String> usersTmp = new LinkedHashSet<>();
         while (stringsCount < usersTmp.size()) {
             stringsCount = usersTmp.size();
-            waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(fieldXpath)));
+            wait("divs", fieldXpath);
             sleep(1);
-            List<WebElement> elements = driver.findElements(By.xpath(fieldXpath));
+            List<WebElement> elements = findElements(fieldXpath);
             for (WebElement element : elements) {
                 usersTmp.add(element.getText());
             }
             WebElement lastElement = elements.get(elements.size() - 1);
             scrollTo(lastElement);
-
             lastElement.click();
         }
         List<String> users = new ArrayList<>(usersTmp);
@@ -231,7 +228,7 @@ public class Main extends Page {
         }
         currentUser = currentUser.split(" ")[0];
         if (currentUser.equals("Administrator")) {
-            if (login.equals("Administrator")) {
+            if (login.equals("Administrator") || login.equals("admin")) {
                 return this;
             }
         }
@@ -335,11 +332,9 @@ public class Main extends Page {
         btnClick(createBtn);
         wait("button", windowCommitBtn);
         for (WebElement el: findElements(".//div[@class=\"v-gridlayout-slot\"]//div[contains(@class, \"v-label v-widget\")]")) {
-//            if (el.getText().length() > 2) {
                 if (!Lists.newArrayList("*", "").contains(el.getText()))
                     fields.add(el.getText());
             }
-//        }
         closeCurrentScreen();
         return fields;
     }
@@ -364,15 +359,19 @@ public class Main extends Page {
         try {
             sleep(1);
             findElement(".//div[@cuba-id=\"optionDialog_discard\"]").click();
-        } catch (NoSuchElementException ex) {
-
-        }
+        } catch (NoSuchElementException ignored) {}
         return this;
     }
 
     public Main checkStringInFilter(String field) {
+        if (field.equals("Обновлять из классификатора банков РФ")) {
+            field = "Обновлять из классификатора банков";
+        }
+        String filterValue;
         fieldInsert(filterConditionInput, field);
-        Assert.assertTrue(findElement(String.format(xPathFilterValue, field)).isDisplayed());
+        filterValue = String.format(xPathFilterValue, field);
+        wait("div", filterValue);
+        Assert.assertTrue(findElement(filterValue).isDisplayed());
         return this;
     }
 

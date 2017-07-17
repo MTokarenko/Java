@@ -1,6 +1,7 @@
 import haulmont.appmanager.pages.Login;
 
 import haulmont.appmanager.pages.Main;
+import haulmont.appmanager.pages.selenide.SelLogin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -27,11 +28,8 @@ public class Sandbox {
             String currentUser;
             driver.get(URL);
             driver.manage().window().maximize();
-            Login loginPage = new Login(driver);
-            loginPage.login("admin", "admin");
-            Assert.assertTrue(driver.findElement(By.xpath(TEZIS_BTN)).isDisplayed(), "Nop");
-            Main main = new Main(driver);
-            main.openReference("Юридические лица");
+            SelLogin login = new SelLogin(driver);
+            login.loginField.sendKeys("login");
 
         } catch (Throwable t) {
             t.printStackTrace();

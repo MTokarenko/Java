@@ -62,20 +62,29 @@ public class Page {
     }
 
     public Class<Main> wait(String type, WebElement el) {
-        if (Objects.equals(type, "button"))
-            waiting.until(ExpectedConditions.elementToBeClickable(el));
-        else if (Objects.equals(type, "div"))
-            waiting.until(ExpectedConditions.visibilityOf(el));
+        switch (type) {
+            case "button":
+                waiting.until(ExpectedConditions.elementToBeClickable(el));
+                break;
+            case "div":
+                waiting.until(ExpectedConditions.visibilityOf(el));
+                break;
+        }
         return Main.class;
     }
 
     public Page wait(String type, String xpath) {
-        if (type.equals("button"))
-            waiting.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
-        else if (type.equals("div"))
-            waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
-        else if (type.equals("divs"))
-            waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
+        switch (type) {
+            case "button":
+                waiting.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+                break;
+            case "div":
+                waiting.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+                break;
+            case "divs":
+                waiting.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
+                break;
+        }
         return this;
     }
 

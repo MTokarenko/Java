@@ -99,13 +99,13 @@ public class ReferenceTest extends TestBase {
         List<String> allFields;
         List<String> references = Arrays.asList( "Наши организации", "Сотрудники",
                 "Должности", "Юридические лица", "Физические лица", "Валюты", "Банки", "Регионы банков");
+//        List<String> references = Arrays.asList( "Банки");
         for (String reference: references) {
             app.getMainPage()
                     .openReference(reference)
                     .checkAdvancedFilter();
             allFields = app.getMainPage().getAllFields();
             for (String field: allFields) {
-//                app.getMainPage().fieldInsert(app.getMainPage().filterConditionInput, field);
                 app.getMainPage().checkStringInFilter(field);
             }
             app.getMainPage().closeCurrentTab();
