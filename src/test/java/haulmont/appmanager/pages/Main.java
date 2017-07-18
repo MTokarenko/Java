@@ -50,15 +50,14 @@ public class Main extends Page {
     private WebElement typicalResolutions;
 
     @FindBy(xpath = ".//div[@cuba-id=\"create\"]")
-    public WebElement createBtn;
+    protected WebElement createBtn;
 
     @FindBy(xpath = ".//div[@cuba-id=\"modeAction\"]")
     private WebElement filterMode;
 
-//    @FindBy(xpath = ".//input[@class=\"v-filterselect-input\"]")
     @FindBy(xpath = ".//div[@cuba-id=\"search\"]/ancestor::div[3]/" +
             "preceding-sibling::div//input[@class=\"v-filterselect-input\"]")
-    public WebElement filterConditionInput;
+    private WebElement filterConditionInput;
 
     private String xPathFilterValue = ".//td[contains(@class, 'gwt-MenuItem')]/span[contains(text(), \"%s\")]";
 

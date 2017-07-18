@@ -31,7 +31,7 @@ public class ReferenceTest extends TestBase {
                 && referenceAdmin.containsAll(referenceSimpleUser));
     }
 
-    @Test
+    @Test(priority = 1)
     public void testTypicalResolutionCreation() {
 
 //        Button button = _$(Button.class, "loginBtn");
@@ -64,7 +64,7 @@ public class ReferenceTest extends TestBase {
         }
     }
 
-    @Test
+    @Test(priority = 1)
     public void testReferencesVisibleForUsers() {
         List<String> roles = Arrays.asList("Administrator", "UserSubstitutionEditor", "SimpleUser");
         List<String> references = Arrays.asList("Замещение пользователей");
@@ -81,20 +81,20 @@ public class ReferenceTest extends TestBase {
         }
     }
 
-    @Test
+    @Test(priority = 3)
     public void testEmployeeAfterUserCreation() {
         app.getNewUser().createUser("AppIntegrationRole");
         app.getMainPage().deleteUser("AppIntegrationRole");
     }
 
-    @Test
+    @Test(priority = 4)
     public void testHotKeys() {
         app.getMainPage().altL();
         app.getMainPage().altM();
     }
 
 
-    @Test
+    @Test(priority = 2)
     public void testFiltersInReferences() {
         List<String> allFields;
         List<String> references = Arrays.asList( "Наши организации", "Сотрудники",

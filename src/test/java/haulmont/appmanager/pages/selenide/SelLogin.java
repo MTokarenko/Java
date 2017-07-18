@@ -1,6 +1,9 @@
 package haulmont.appmanager.pages.selenide;
-import com.codeborne.selenide.SelenideElement;
+
+import com.codeborne.selenide.*;
+import com.codeborne.selenide.SelenidePageFactory;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -14,14 +17,14 @@ import static com.codeborne.selenide.Condition.*;
 
 public class SelLogin {
 
-    @FindBy(xpath = "//input[@cuba-id='loginField']")
+    @FindBy(xpath = ".//input[@cuba-id='loginField']")
     public SelenideElement loginField;
 
     WebDriver driver;
 
     public SelLogin(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver, SelLogin.class);
+        SelenidePageFactory.initElements(driver, this);
     }
 
 }

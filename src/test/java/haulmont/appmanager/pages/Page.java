@@ -31,7 +31,7 @@ public class Page {
 
     public Page btnClick(String xpath) {
         wait("button", xpath);
-        driver.findElement(By.xpath(xpath)).click();
+        findElement(xpath).click();
         return this;
     }
 
@@ -40,7 +40,7 @@ public class Page {
         if (value != null) {
             String existingText = elem.getAttribute("value");
             if (! value.equals(existingText)) {
-                elem.click();
+                btnClick(elem);
                 elem.clear();
                 elem.sendKeys(value);
             }

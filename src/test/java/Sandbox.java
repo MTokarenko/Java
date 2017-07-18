@@ -15,27 +15,21 @@ import static tokarenko.haulmont.tezis.data.Data.URL;
 import static utils.Utils.sleep;
 
 public class Sandbox {
+
     public static void main(String[] args) {
-        String str = new String("initiator g. g. [init]");
-        str = str.split(" ")[0];
-        System.out.println("final - " + str);
-
-
-
         System.setProperty("webdriver.gecko.driver", "src\\main\\resources\\drivers\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
         try {
-            String currentUser;
             driver.get(URL);
             driver.manage().window().maximize();
             SelLogin login = new SelLogin(driver);
+            login.loginField.click();
             login.loginField.sendKeys("login");
-
         } catch (Throwable t) {
             t.printStackTrace();
-
         } finally {
             driver.quit();
         }
     }
+
 }
